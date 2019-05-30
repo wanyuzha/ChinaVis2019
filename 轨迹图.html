@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>ECharts</title>
+    <!-- 引入 echarts.js -->
+    <script src="./node_modules/echarts/dist/echarts.min.js"></script>
+    <script src="node_modules/echarts/dist/echarts-gl.min.js"></script>
+    <script src="./jquery-3.3.1/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="width: 600px;height:400px;"></div>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+        $.getScript('https://www.echartsjs.com/gallery/vendors/simplex.js').done(function () {
+
+var noise = new SimplexNoise(Math.random);
+var noise2 = new SimplexNoise(Math.random);
+function generateData() {
+    var data = [];
+    for (var i = 0; i <= 50; i++) {
+        for (var j = 0; j <= 50; j++) {
+            var dx = noise.noise2D(i / 100, j / 100);
+            var dy = noise2.noise2D(i / 100, j / 100);
+            var mag = Math.sqrt(dx * dx + dy * dy);
+            valMax = Math.max(valMax, mag);
+            valMin = Math.min(valMin, mag);
+            mag = 5;
+            data.push([i, j, dx, dy, mag]);
+        }
+    }
+    return data;
+}
+var valMin = Infinity;
+var valMax = -Infinity;
+var data = generateData();
+var data = [1,1,2,3,5];
+
+myChart.setOption({
+    visualMap: {
+        show: true,
+        min: valMin,
+        max: valMax,
+        dimension: 4,
+        inRange: {
+            color: ['#313695', '#4575b4', '#74add1', '#abd9e9', '#e0f3f8', '#ffffbf', '#fee090', '#fdae61', '#f46d43', '#d73027', '#a50026']
+        }
+    },
+    xAxis: {
+        type: 'value',
+        show:true,
+        axisLine: {
+            lineStyle: {
+                color: '#fff'
+            }
+        },
+        splitLine: {
+            show: true,
+            lineStyle: {
+                color: 'rgba(255,255,255,0.2)'
+            }
+        }
+    },
+    yAxis: {
+        type: 'value',
+        axisLine: {
+            lineStyle: {
+                color: '#fff'
+            }
+        },
+        splitLine: {
+            show: true,
+            lineStyle: {
+                color: 'rgba(255,255,255,0.2)'
+            }
+        }
+    },
+    series: [{
+        type: 'flowGL',
+        data: data,
+        particleDensity: 64,
+        particleSize: 5,
+        itemStyle: {
+            opacity: 0.5
+        }
+    }, {
+        type: 'custom',
+        data: data,
+        encode: {
+            x: 0,
+            y: 0
+        },
+        renderItem: function (params, api) {
+            var x = api.value(0), y = api.value(1), dx = api.value(2), dy = api.value(3);
+            var start = api.coord([x , y ]);
+            var end = api.coord([dx, dy]);
+            return {
+                type: 'line',
+                shape: {
+                    x1: start[0], y1: start[1],
+                    x2: end[0], y2: end[1]
+                },
+                style: {
+                    lineWidth: 2,
+                    stroke:'#fff',
+                    opacity: 0.2
+                }
+            }
+        }
+    }]
+});
+
+});
+
+        // 使用刚指定的配置项和数据显示图表。
+        //myChart.setOption(option,true);
+    </script>
+</body>
+</html>
