@@ -1,110 +1,205 @@
+
 <!-- 服务器接收测试-->
 
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <title>ECharts</title>
     <!-- 引入 echarts.js -->
-    <script src="./node_modules/echarts/dist/echarts.min.js"></script>
-    <script src="./jquery-3.3.1/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 </head>
+
 <body>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.bootcss.com/echarts/4.2.1-rc1/echarts.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.4.0/jquery.min.js"></script>
     <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div class="btn-group" role="group" aria-label="..." style="width:600px;margin:20px;">
+        <button type="button" class="btn btn-default" name="relax" onclick="onItemClick('relax')">relax</button>
+        <button type="button" class="btn btn-default" name="canteen" onclick="onItemClick('canteen')">canteen</button>
+        <button type="button" class="btn btn-default" name="sign" onclick="onItemClick('sign')">sign</button>
+        <button type="button" class="btn btn-default" name="service" onclick="onItemClick('service')">service</button>
+        <button type="button" class="btn btn-default" name="mainVenue"
+            onclick="onItemClick('mainVenue')">mainVenue</button>
+        <button type="button" class="btn btn-default" name="exhibition"
+            onclick="onItemClick('exhibition')">exhibition</button>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+                room
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="#" name="room1" onclick="onItemClick('room1')">room1</a></li>
+                <li><a href="#" name="room2" onclick="onItemClick('room2')">room2</a></li>
+                <li><a href="#" name="room3" onclick="onItemClick('room3')">room3</a></li>
+                <li><a href="#" name="room4" onclick="onItemClick('room4')">room4</a></li>
+                <li><a href="#" name="room5" onclick="onItemClick('room5')">room5</a></li>
+                <li><a href="#" name="room6" onclick="onItemClick('room6')">room6</a></li>
+            </ul>
+        </div>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+                restroom
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="#" name="restroom1" onclick="onItemClick('restroom1')">restroom1</a></li>
+                <li><a href="#" name="restroom2" onclick="onItemClick('restroom2')">restroom2</a></li>
+                <li><a href="#" name="restroom3" onclick="onItemClick('restroom3')">restroom3</a></li>
+                <li><a href="#" name="restroom4" onclick="onItemClick('restroom4')">restroom4</a></li>
+            </ul>
+        </div>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+                venue
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="#" name="venueA" onclick="onItemClick('venueA')">venueA</a></li>
+                <li><a href="#" name="venueB" onclick="onItemClick('venueB')">venueB</a></li>
+                <li><a href="#" name="venueC" onclick="onItemClick('venueC')">venueC</a></li>
+                <li><a href="#" name="venueD" onclick="onItemClick('venueD')">venueD</a></li>
+            </ul>
+        </div>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+                exit
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="#" name="exit1" onclick="onItemClick('exit1')">exit1</a></li>
+                <li><a href="#" name="exit2" onclick="onItemClick('exit2')">exit2</a></li>
+                <li><a href="#" name="exit3" onclick="onItemClick('exit3')">exit3</a></li>
+                <li><a href="#" name="exit4" onclick="onItemClick('exit4')">exit4</a></li>
+            </ul>
+        </div>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+                entry
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="#" name="entry1" onclick="onItemClick('entry1')">entry1</a></li>
+                <li><a href="#" name="entry2" onclick="onItemClick('entry2')">entry2</a></li>
+                <li><a href="#" name="entry3" onclick="onItemClick('entry3')">entry3</a></li>
+                <li><a href="#" name="entry4" onclick="onItemClick('entry4')">entry4</a></li>
+            </ul>
+        </div>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+                stair
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="#" name="stair1" onclick="onItemClick('stair1')">stair1</a></li>
+                <li><a href="#" name="stair2" onclick="onItemClick('stair2')">stair2</a></li>
+            </ul>
+        </div>
+    </div>
     <div id="main" style="width: 600px;height:400px;"></div>
     <script type="text/javascript">
-        // 基于准备好的dom，初始化echarts实例
-        $('document').ready(async function(){
-            var myChart = echarts.init(document.getElementById('main'));
-        var base = +new Date(1968, 9, 3);
-        var oneDay = 24 * 3600 * 1000;
-        //var data = [];
         var date = [];
         var data = [];
-        try{
-            var datain = await $.get('http://www.jackxin8.cn/vis/day1')
-            console.log(datain)
-            date = datain.data.time
-            data = datain.data.count
-        }
-        catch{
-            console.log('error')
-        }
-        
-        option = {
-            tooltip: {
-                 trigger: 'axis',
-                 position: function (pt) {
-                 return [pt[0], '10%'];
+        var myChart = echarts.init(document.getElementById('main'));
+        async function onItemClick(src) {
+            console.log('到这')
+            try {
+                var datain = await $.get('http://www.jackxin8.cn/vis/day1func?function=' + src)
+                date = datain.data.time
+                data = datain.data.count
+                var option = {
+                    tooltip: {
+                        trigger: 'axis',
+                        position: function (pt) {
+                            return [pt[0], '10%'];
+                        }
+                    },
+                    title: {
+                        left: 'center',
+                        text: '会议首日总人数统计',
+                    },
+                    toolbox: {
+                        feature: {
+                            dataZoom: {
+                                yAxisIndex: 'none'
+                            },
+                            restore: {},
+                            saveAsImage: {}
+                        }
+                    },
+                    xAxis: {
+                        type: 'category',
+                        boundaryGap: false,
+                        data: date
+                    },
+                    yAxis: {
+                        type: 'value',
+                        boundaryGap: [0, '80%']
+                    },
+                    dataZoom: [{
+                        type: 'inside',
+                        start: 0,
+                        end: 10
+                    }, {
+                        start: 0,
+                        end: 10,
+                        handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+                        handleSize: '80%',
+                        handleStyle: {
+                            color: '#fff',
+                            shadowBlur: 3,
+                            shadowColor: 'rgba(0, 0, 0, 0.6)',
+                            shadowOffsetX: 2,
+                            shadowOffsetY: 2
+                        }
+                    }],
+                    series: [{
+                        name: '总人数',
+                        type: 'line',
+                        smooth: true,
+                        symbol: 'none',
+                        sampling: 'average',
+                        itemStyle: {
+                            color: 'rgb(255, 70, 131)'
+                        },
+                        areaStyle: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: 'rgb(255, 158, 68)'
+                            }, {
+                                offset: 1,
+                                color: 'rgb(255, 70, 131)'
+                            }])
+                        },
+                        data: data
+                    }]
+                };
+                myChart.setOption(option, true);
+            } catch (e) {
             }
-        },
-        title: {
-             left: 'center',
-             text: '会议首日总人数统计',
-        },
-        toolbox: {
-            feature: {
-                dataZoom: {
-                    yAxisIndex: 'none'
-                },
-                restore: {},
-                saveAsImage: {}
-            }
-        },
-        xAxis: {
-            type: 'category',
-            boundaryGap: false,
-            data: date
-        },
-        yAxis: {
-            type: 'value',
-            boundaryGap: [0, '80%']
-        },
-        dataZoom: [{
-            type: 'inside',
-            start: 0,
-            end: 10
-        }, {
-            start: 0,
-            end: 10,
-            handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
-            handleSize: '80%',
-            handleStyle: {
-                color: '#fff',
-                shadowBlur: 3,
-                shadowColor: 'rgba(0, 0, 0, 0.6)',
-                shadowOffsetX: 2,
-                shadowOffsetY: 2
         }
-    }],
-    series: [
-        {
-            name:'总人数',
-            type:'line',
-            smooth:true,
-            symbol: 'none',
-            sampling: 'average',
-            itemStyle: {
-                color: 'rgb(255, 70, 131)'
-            },
-            areaStyle: {
-                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                    offset: 0,
-                    color: 'rgb(255, 158, 68)'
-                }, {
-                    offset: 1,
-                    color: 'rgb(255, 70, 131)'
-                }])
-            },
-            data: data
-        }
-    ]
-};
-
-        // 使用刚指定的配置项和数据显示图表。
-        myChart.setOption(option,true);
+        $('document').ready(async function () {
+            // 使用刚指定的配置项和数据显示图表。
+            //myChart.setOption(option, true);
         })
-
     </script>
 </body>
+
 </html>
