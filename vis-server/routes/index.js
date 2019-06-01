@@ -80,12 +80,11 @@ router.get('/heatMap', async (ctx, next) => {
       }
       back.message = 'success';
       e.forEach(item => {
-        const [h, m, _] = item.time.split(':');
-        const index = (+h - 7) * 60 + (+m - 1);
+        const index = item.time;
         if (back.data[index]) {
-          back.data[index].push([item.y, 16 - item.x, item.count]);
+          back.data[index].push([item.x, item.y, item.count]);
         } else {
-          back.data[index] = [[item.y, 16 - item.x, item.count]];
+          back.data[index] = [[item.x, item.y, item.count]];
         }
       });
     });
