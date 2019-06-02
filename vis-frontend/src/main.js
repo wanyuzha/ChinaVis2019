@@ -5,6 +5,7 @@ import axios from 'axios'
 import echarts from 'echarts'
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios
+Vue.prototype.$bus = new Vue()
 Vue.use(echarts)
 new Vue({
   router,

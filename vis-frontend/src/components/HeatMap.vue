@@ -9,6 +9,8 @@ export default {
     name: 'heatMap',
     mounted() {
         const myChart = echarts.init(document.getElementById('heatMap'));
+        var time = []
+        let that = this
         const timeline = Array.from({
             length: 720
         }).map((_, i) => {
@@ -695,7 +697,6 @@ export default {
                 },
             ],
         };
-
         echarts.registerMap('test', myjson);
         let option = {
             baseOption: {
@@ -820,9 +821,7 @@ export default {
             },
             options: [],
         };
-        console.log(option)
         myChart.setOption(option, true);
-        // http://www.jackxin8.cn/vis/heatMap?floor=1
         this.$axios.get('http://www.jackxin8.cn/vis/heatMap?floor=1').then(r => {
             r.data.data.forEach((item, i) => {
                 option.options.push({
@@ -839,16 +838,20 @@ export default {
                     }, ],
                 });
             });
-            var time = []
-            console.log(option);
             myChart.setOption(option, true);
-            myChart.on('timelinechanged', e=>{
-               time = timeline[e.currentIndex];
-            });
-            myChart.on('click', function(params){
-                console.log(myChart.convertFromPixel('geo',[params.event.offsetX,params.event.offsetY]));
-                console.log(time);
-            });
+        });
+        myChart.on('timelinechanged', e => {
+            time = timeline[e.currentIndex];
+        });
+        myChart.on('click', function (params) {
+            that.$axios.post('http://localhost:5270/hm2r',{
+                pos:myChart.convertFromPixel('geo', [params.event.offsetX, params.event.offsetY]),
+                time:time
+            }).then(r=>{
+                that.$bus.$emit('getFromHM',r.data)
+            }).catch(e=>{
+                console.log(e)
+            })
         });
     }
 }

@@ -91,4 +91,49 @@ router.get('/heatMap', async (ctx, next) => {
   ctx.body = back;
 });
 
+router.post('/hm2r',async(ctx,next)=>{
+  let back = {
+    message:'fail',
+    data:{}
+  }
+  let req = ctx.request.body // req:pos([x,y]),time
+  if(JSON.stringify(req) === '{}'){
+    back.message = 'query error'
+    ctx.body = back
+    return;
+  }
+  req.pos[0] = Math.floor(req.pos[0])+0.5
+  req.pos[1] = Math.floor(req.pos[1])+0.5
+  let p = 3600
+  let timeTmp = 0
+  req.time.split(':').forEach(e=>{
+    timeTmp += e*p
+    p/=60
+  })
+  req.time = timeTmp
+  await knex('sensor').join('day1','sensor.sid','=','day1.sid').select('id').where({
+    x:req.pos[0],
+    y:req.pos[1]
+  }).where('time','<=',req.time).where('end_time','>',req.time).then(async e=>{
+    if(e.length === 0){
+      back.message = 'empty'
+      return;
+    }
+    else{
+      back.message = 'success'
+      let queryList = []
+      e.forEach(r=>{
+        queryList.push(r.id)
+      })
+      await knex('peopletoclass').select('class').count('*').whereIn('id',queryList).groupBy('class').then(e=>{
+        e.forEach(r=>{
+          back.data[r.class] = r['count(*)']
+        })
+      })
+    }
+  })
+  console.log(back.data)
+  ctx.body = back
+})
+
 module.exports = router;
