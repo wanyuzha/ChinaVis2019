@@ -1,21 +1,33 @@
 <template>
-    <div class="wrap">
-        <heatMap></heatMap>
-        <rose></rose>
+  <div class="wrap">
+    <div>
+      <firstHeatMap></firstHeatMap>
+      <rose></rose>
     </div>
+
+    <div>
+      <secondHeatMap></secondHeatMap>
+    </div>
+  </div>
 </template>
 <script>
-import heatMap from '../components/HeatMap'
-import rose from '../components/Rose'
+import firstHeatMap from '../components/FirstHeatMap';
+import secondHeatMap from '../components/SecondHeatMap';
+import rose from '../components/Rose';
 export default {
-    components:{
-        heatMap,
-        rose
-    }
-}
+  components: {
+    firstHeatMap,
+    secondHeatMap,
+    rose,
+  },
+};
 </script>
 <style>
-.wrap{
-    display: flex;
+/* .wrap {
+  display: flex;
+} */
+.wrap > div {
+  display: flex;
+  margin-bottom: 50px;
 }
 </style>

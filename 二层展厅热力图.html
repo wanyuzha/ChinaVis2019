@@ -166,7 +166,7 @@
       };
 
       echarts.registerMap('second-floor', geoJson);
-      option = {
+      const option = {
         baseOption: {
           timeline: {
             axisType: 'category',
@@ -211,6 +211,7 @@
               color: '#fff',
             },
           },
+          tooltip: {},
           backgroundColor: '#404a59',
           visualMap: {
             pieces: [
