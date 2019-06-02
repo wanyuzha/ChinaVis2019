@@ -1,16 +1,16 @@
 <template>
     <div class="wrap">
         <heatMap></heatMap>
-        <river></river>
+        <rose></rose>
     </div>
 </template>
 <script>
 import heatMap from '../components/HeatMap'
-import river from '../components/River'
+import rose from '../components/Rose'
 export default {
     components:{
         heatMap,
-        river
+        rose
     }
 }
 </script>

@@ -227,6 +227,24 @@ export default {
                 {
                     type: 'Feature',
                     properties: {
+                        name: 'total'
+                    },
+                    geometry: {
+                        type: 'Polygon',
+                        coordinates: [
+                            [
+                                [0, 0],
+                                [30, 0],
+                                [30, 16],
+                                [0, 16],
+                                [0, 0]
+                            ]
+                        ],
+                    },
+                },
+                {
+                    type: 'Feature',
+                    properties: {
                         name: 'venueA'
                     },
                     geometry: {
@@ -693,7 +711,7 @@ export default {
                     bottom: 20,
                     width: 1400,
                     height: null,
-
+                    currentIndex: 0,
                     symbol: 'none',
                     lineStyle: {
                         color: '#555',
@@ -790,6 +808,12 @@ export default {
                             areaColor: '#2a333d',
                         },
                     },
+                    regions: [{
+                        name: 'total',
+                        itemStyle: {
+                            opacity: 0
+                        }
+                    }]
                 },
                 animationDurationUpdate: 1000,
                 animationEasingUpdate: 'quinticInOut',
@@ -815,8 +839,16 @@ export default {
                     }, ],
                 });
             });
+            var time = []
             console.log(option);
             myChart.setOption(option, true);
+            myChart.on('timelinechanged', e=>{
+               time = timeline[e.currentIndex];
+            });
+            myChart.on('click', function(params){
+                console.log(myChart.convertFromPixel('geo',[params.event.offsetX,params.event.offsetY]));
+                console.log(time);
+            });
         });
     }
 }
