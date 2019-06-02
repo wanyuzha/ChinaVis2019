@@ -844,7 +844,7 @@ export default {
             time = timeline[e.currentIndex];
         });
         myChart.on('click', function (params) {
-            that.$axios.post('http://localhost:5270/hm2r',{
+            that.$axios.post('http://www.jackxin8.cn/vis/hm2r',{
                 pos:myChart.convertFromPixel('geo', [params.event.offsetX, params.event.offsetY]),
                 time:time
             }).then(r=>{
