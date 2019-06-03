@@ -1,5 +1,20 @@
 <template>
-  <div id="rose" style="width: 600px;height:600px;"></div>
+  <div>
+    <div id="rose" style="width: 600px;height:600px;"></div>
+    <el-dialog title="人员ID详情" :visible.sync="visible" width="60%" style="opacity:0.8;">
+      <div style="text-align:left;overflow:scroll;height:400px">
+        <div v-for="item in ids">
+          {{item}}
+        </div>
+      </div>
+
+      <!--
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="visible = false">取 消</el-button>
+        <el-button type="primary" @click="visible = false">确 定</el-button>
+      </span>!-->
+    </el-dialog>
+  </div>
 </template>
 <script>
 import echarts from 'echarts';
@@ -63,10 +78,7 @@ const option = {
     },
   ],
 };
-export default {
-  name: 'rose',
-  created() {
-    const chartData = [
+var chartData = [
       {
         value: 0,
         name: 'rose1',
@@ -83,12 +95,25 @@ export default {
         value: 0,
         name: 'rose4',
       },
-    ];
+    ]
+var data_ = {}
+export default {
+  name: 'rose',
+  data () {
+    return {
+      visible:false,
+      ids:[]
+    }
+  },
+  created() {
+    let that = this
     this.$bus.$on('getFromHM', ({ data, message }) => {
       if (message === 'success') {
+        data_ = data
         const keys = Object.keys(chartData);
         keys.forEach(e => {
-          chartData[e].value = data[e] || 0;
+          if(data[e] === undefined) chartData[e].value = 0
+          else chartData[e].value = data[e].count
         });
         option.series[0].data = chartData;
         myChart.setOption(option, true);
@@ -96,9 +121,16 @@ export default {
     });
   },
   mounted() {
+    let that = this
     myChart = echarts.init(document.getElementById('rose'));
     // 使用刚指定的配置项和数据显示图表。
     myChart.setOption(option, true);
+    myChart.on('click',params=>{
+      let index = params.dataIndex
+      if(data_[index] === undefined) return;
+      that.ids = data_[index].ids
+      that.visible = true
+    })
   },
 };
 </script>
