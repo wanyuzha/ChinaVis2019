@@ -25,6 +25,111 @@ router.get('/day1', async (ctx, next) => {
   ctx.body = back;
 });
 
+router.get('/graph', async (ctx, next) => {
+  const back = {
+    message: 'fail',
+    data: {
+      node: [],
+      link: [],
+    }
+  };
+  var status1 = false;
+  var status2 = false;
+  await knex('sensor')
+    .select('*')
+    .then(e => {
+      const node = [];
+      for (const o of e) {
+        switch(o.function){
+          case 'poster':
+          node.push({
+            name: o.sid,
+            category: 0,
+            tooltip: {
+              formatter: '海报区:{b}'
+            }
+          });
+          break;
+          case 'road':
+          node.push({
+            name: o.sid,
+            category: 1,
+            tooltip: {
+              formatter: '道路:{b}'
+            }
+          });
+          break;
+          case 'exhibition':
+          node.push({
+            name: o.sid,
+            category: 2,
+            tooltip: {
+              formatter: '展厅:{b}'
+            }
+          });
+          break;
+          case 'mainVenue':
+          node.push({
+            name: o.sid,
+            category: 3,
+            tooltip: {
+              formatter: '主会场:{b}'
+            }
+          });
+          break;
+          case 'canteen':
+          node.push({
+            name: o.sid,
+            category: 5,
+            tooltip: {
+              formatter: '餐厅:{b}'
+            }
+          });
+          break;
+          case 'relax':
+          node.push({
+            name: o.sid,
+            category: 6,
+            tooltip: {
+              formatter: '休闲区:{b}'
+            }
+          });
+          break;
+        }
+        
+        if(o.function.match('venue')){
+          node.push({
+            name: o.sid,
+            category: 4,
+            tooltip: {
+              formatter: '分会场:{b}'
+            }
+          });
+        }
+      }
+      status1 = true;
+      back.data.node = node;
+    });
+  await knex('graph')
+    .select('*')
+    .then(e => {
+      const link = [];
+      for (const o of e) {
+        link.push({
+          source: String(o.source),
+          target: String(o.target),
+          value: o.value,
+        });
+      }
+      status2 = true;
+      back.data.link = link;
+    });
+  if(status1 & status2){
+    back.message = 'success';
+  }
+  ctx.body = back;
+});
+
 router.get('/day1func', async (ctx, next) => {
   const back = {
     message: 'fail',

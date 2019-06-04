@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>ECharts</title>
+    <!-- 引入 echarts.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/4.2.1/echarts.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.4.0/jquery.min.js"></script>
+</head>
+<body>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="width: 800px;height:700px;"></div>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+        $.get('http://localhost:5270/graph',function(data){
+            console.log(data.data.link);
+            console.log(data);
+            var option = {
+            title: {
+                text: '力导图',
+                top: 'bottom',
+                left: 'right'
+            },
+            legend: [{
+                data: ['海报区', '道路', '展厅', '主会场', '分会场', '餐厅', '休闲区'],
+                selected: {
+                    '道路': true,
+                    '展厅': true,
+                    '主会场': true,
+                    '海报区': false,
+                    '分会场': false,
+                    '餐厅': false,
+                    '休闲区': false
+                }
+            }],
+            tooltip: {
+                trigger: 'item'
+            },
+            animation: false,
+            series:[
+                {
+                    name: '力导图',
+                    type: 'graph',
+                    layout: 'force',
+                    data: data.data.node,
+                    links: data.data.link,
+                    roam:true,
+                    draggable: true,
+                    categories: [{name:'海报区'}, {name:'道路'}, {name:'展厅'}, {name:'主会场'}, {name:'分会场'},
+                        {name:'餐厅'}, {name:'休闲区'}],
+                    label: {
+                        normal: {
+                            position: 'right'
+                        }
+                    },
+                    lineStyle: {
+                        color: 'source'
+                    },
+                    focusNodeAdjacency: true,
+                    symbolSize: 12,
+                    force: {
+                        repulsion: 1000,
+                        initLayout: 'circular'
+                    }
+                }]
+            };
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option,true);
+        });
+        
+    </script>
+</body>
+</html>
