@@ -25,6 +25,89 @@ router.get('/day1', async (ctx, next) => {
   ctx.body = back;
 });
 
+router.get('/IDtrack', async (ctx, next) => {
+  const back = {
+    message: 'fail',
+    data: []
+  };
+  const id = ctx.query.id;
+  console.log(id);
+  var status1 = false;
+  var status2 = false;
+  var status3 = false;
+  await knex('day1').join('sensor', 'day1.sid', '=', 'sensor.sid')
+    .select('*')
+    .where('id', id)
+    .orderBy('time', 'asc')
+    .then(e => {
+      const track = [];
+      for (const o of e) {
+        track.push({
+          time: o.time,
+          floor: o.floor,
+          x: o.x,
+          y: o.y
+        });
+      }
+      status1 = true;
+      console.log(track);
+      if (track.length != 0) {
+        back.data.push({
+          index: 0,
+          track: track
+        });
+      }
+    });
+  await knex('day2').join('sensor', 'day2.sid', '=', 'sensor.sid')
+    .select('*')
+    .where('id', id)
+    .orderBy('time', 'asc')
+    .then(e => {
+      const track = [];
+      for (const o of e) {
+        track.push({
+          time: o.time,
+          floor: o.floor,
+          x: o.x,
+          y: o.y
+        });
+      }
+      status2 = true;
+      if (track.length != 0) {
+        back.data.push({
+          index: 1,
+          track: track
+        });
+      }
+    });
+  await knex('day3').join('sensor', 'day3.sid', '=', 'sensor.sid')
+    .select('*')
+    .where('id', id)
+    .orderBy('time', 'asc')
+    .then(e => {
+      const track = [];
+      for (const o of e) {
+        track.push({
+          time: o.time,
+          floor: o.floor,
+          x: o.x,
+          y: o.y
+        });
+      }
+      status3 = true;
+      if (track.length != 0) {
+        back.data.push({
+          index: 2,
+          track: track
+        });
+      }
+    });
+  if (status1 & status2 & status3) {
+    back.message = 'success';
+  }
+  ctx.body = back;
+});
+
 router.get('/graph', async (ctx, next) => {
   const back = {
     message: 'fail',
