@@ -7,7 +7,7 @@ export default {
   name: 'force',
   mounted() {
     const myChart = echarts.init(document.getElementById('force'));
-    this.$axios.get('http://localhost:5270/graph', function(data) {
+    this.$axios.get('http://localhost:5270/graph').then(function(data) {
       const option = {
         title: {
           text: '力导图',
@@ -45,8 +45,8 @@ export default {
             name: '力导图',
             type: 'graph',
             layout: 'force',
-            data: data.data.node,
-            links: data.data.link,
+            data: data.data.data.node,
+            links: data.data.data.link,
             roam: true,
             draggable: true,
             categories: [
@@ -74,10 +74,11 @@ export default {
             },
           },
         ],
+      
       };
       // 使用刚指定的配置项和数据显示图表。
       myChart.setOption(option, true);
-    });
-  },
+    })
+  }
 };
 </script>
