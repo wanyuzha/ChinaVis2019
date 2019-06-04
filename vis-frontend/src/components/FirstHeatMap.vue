@@ -539,6 +539,7 @@ export default {
           time: time,
         })
         .then(r => {
+          console.log(r.data)
           this.$bus.$emit('getFromHM', r.data);
         })
         .catch(e => {

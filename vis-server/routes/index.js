@@ -219,18 +219,24 @@ router.post('/hm2r', async (ctx, next) => {
       }
       back.message = 'success';
       const queryList = e.map(({ id }) => id);
+      console.log(queryList)
       await knex('peopletoclass')
-        .select('class')
-        .count('*')
+        .select('class').count('*')
         .whereIn('id', queryList)
-        .groupBy('class')
-        .then(e => {
+        .groupBy('class').then(e => {
           e.forEach(r => {
-            back.data[r.class] = r['count(*)'];
+            back.data[r.class] = {count:r['count(*)'],ids:[]};
           });
         });
+      await knex('peopletoclass')
+      .select('id','class')
+      .whereIn('id', queryList).then(e=>{
+        e.forEach(r=>{
+          back.data[r.class].ids.push(r.id)
+        })
+      })
     });
-  console.log(back.data);
+  //console.log(back.data);
   ctx.body = back;
 });
 
