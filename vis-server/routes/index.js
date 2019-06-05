@@ -76,77 +76,78 @@ router.get('/graph', async (ctx, next) => {
     knex('sensor').select('*'),
     knex('graph').select('*'),
   ]);
-  back.data.node = area.map(o => {
-    switch (o.function) {
-      case 'poster':
-        return {
-          name: o.sid,
-          category: 0,
-          tooltip: {
-            formatter: '海报区:{b}',
-          },
-        };
-        break;
-      case 'road':
-        return {
-          name: o.sid,
-          category: 1,
-          tooltip: {
-            formatter: '道路:{b}',
-          },
-        };
-        break;
-      case 'exhibition':
-        return {
-          name: o.sid,
-          category: 2,
-          tooltip: {
-            formatter: '展厅:{b}',
-          },
-        };
-        break;
-      case 'mainVenue':
-        return {
-          name: o.sid,
-          category: 3,
-          tooltip: {
-            formatter: '主会场:{b}',
-          },
-        };
-        break;
-      case 'canteen':
-        return {
-          name: o.sid,
-          category: 5,
-          tooltip: {
-            formatter: '餐厅:{b}',
-          },
-        };
-        break;
-      case 'relax':
-        return {
-          name: o.sid,
-          category: 6,
-          tooltip: {
-            formatter: '休闲区:{b}',
-          },
-        };
-        break;
-    }
+  back.data.node = area
+    .map(o => {
+      switch (o.function) {
+        case 'poster':
+          return {
+            name: o.sid,
+            category: 0,
+            tooltip: {
+              formatter: '海报区:{b}',
+            },
+          };
+          break;
+        case 'road':
+          return {
+            name: o.sid,
+            category: 1,
+            tooltip: {
+              formatter: '道路:{b}',
+            },
+          };
+          break;
+        case 'exhibition':
+          return {
+            name: o.sid,
+            category: 2,
+            tooltip: {
+              formatter: '展厅:{b}',
+            },
+          };
+          break;
+        case 'mainVenue':
+          return {
+            name: o.sid,
+            category: 3,
+            tooltip: {
+              formatter: '主会场:{b}',
+            },
+          };
+          break;
+        case 'canteen':
+          return {
+            name: o.sid,
+            category: 5,
+            tooltip: {
+              formatter: '餐厅:{b}',
+            },
+          };
+          break;
+        case 'relax':
+          return {
+            name: o.sid,
+            category: 6,
+            tooltip: {
+              formatter: '休闲区:{b}',
+            },
+          };
+          break;
+      }
 
-    if (o.function.match('venue')) {
-      return {
-        name: o.sid,
-        category: 4,
-        tooltip: {
-          formatter: '分会场:{b}',
-        },
-      };
-    }
-    return {};
-  });
+      if (o.function.match('venue')) {
+        return {
+          name: o.sid,
+          category: 4,
+          tooltip: {
+            formatter: '分会场:{b}',
+          },
+        };
+      }
+    })
+    .filter(v => typeof v !== 'undefined');
   back.data.link = graph.map(({ source, target, value }) => {
-    return { source, target, value };
+    return { source: source + '', target: target + '', value };
   });
 
   back.message = 'success';
