@@ -181,6 +181,36 @@ router.get('/day1func', async (ctx, next) => {
   ctx.body = back;
 });
 
+router.get('/stream', async (ctx, next) => {
+  const back = {
+    message: 'fail',
+    data: [],
+  };
+  //const sid = ctx.request.body.sid;
+  const sid = [10219, 11121, 11123, 11125];
+  const time = ctx.query.time;
+  console.log(sid);
+  console.log(time);
+  await knex('day1')
+    .select('*')
+    .count('*')
+    .whereIn('sid', sid)
+    .where('time', '<=', time)
+    .where('end_time', '>', time)
+    .where('end_time', '<', time + 60)
+    .groupBy('sid')
+    .then(e => {
+      e.forEach(r=>{
+        back.data.push({
+          sid: r.sid,
+          count: r['count(*)']
+        })
+      })
+      back.message = 'success';
+    });
+  ctx.body = back;
+});
+
 router.get('/heatMap', async (ctx, next) => {
   const back = {
     message: 'fail',
