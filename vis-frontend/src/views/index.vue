@@ -1,27 +1,24 @@
 <template>
   <div class="wrap">
     <div>
-      <firstHeatMap></firstHeatMap>
-      <rose></rose>
+      <heatMap></heatMap>
+      <roseMap></roseMap>
     </div>
 
     <div>
-      <secondHeatMap></secondHeatMap>
-      <force></force>
+      <forceMap></forceMap>
     </div>
   </div>
 </template>
 <script>
-import firstHeatMap from '../components/FirstHeatMap';
-import secondHeatMap from '../components/SecondHeatMap';
-import rose from '../components/Rose';
-import force from '../components/Force';
+import heatMap from '../components/HeatMap';
+import roseMap from '../components/RoseMap';
+import forceMap from '../components/ForceMap';
 export default {
   components: {
-    force,
-    firstHeatMap,
-    secondHeatMap,
-    rose,
+    forceMap,
+    heatMap,
+    roseMap,
   },
 };
 </script>

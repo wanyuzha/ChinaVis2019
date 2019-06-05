@@ -28,83 +28,39 @@ router.get('/day1', async (ctx, next) => {
 router.get('/IDtrack', async (ctx, next) => {
   const back = {
     message: 'fail',
-    data: []
+    data: [],
   };
-  const id = ctx.query.id;
-  console.log(id);
-  var status1 = false;
-  var status2 = false;
-  var status3 = false;
-  await knex('day1').join('sensor', 'day1.sid', '=', 'sensor.sid')
-    .select('*')
-    .where('id', id)
-    .orderBy('time', 'asc')
-    .then(e => {
-      const track = [];
-      for (const o of e) {
-        track.push({
-          time: o.time,
-          floor: o.floor,
-          x: o.x,
-          y: o.y
-        });
-      }
-      status1 = true;
-      console.log(track);
-      if (track.length != 0) {
-        back.data.push({
-          index: 0,
-          track: track
-        });
-      }
-    });
-  await knex('day2').join('sensor', 'day2.sid', '=', 'sensor.sid')
-    .select('*')
-    .where('id', id)
-    .orderBy('time', 'asc')
-    .then(e => {
-      const track = [];
-      for (const o of e) {
-        track.push({
-          time: o.time,
-          floor: o.floor,
-          x: o.x,
-          y: o.y
-        });
-      }
-      status2 = true;
-      if (track.length != 0) {
-        back.data.push({
-          index: 1,
-          track: track
-        });
-      }
-    });
-  await knex('day3').join('sensor', 'day3.sid', '=', 'sensor.sid')
-    .select('*')
-    .where('id', id)
-    .orderBy('time', 'asc')
-    .then(e => {
-      const track = [];
-      for (const o of e) {
-        track.push({
-          time: o.time,
-          floor: o.floor,
-          x: o.x,
-          y: o.y
-        });
-      }
-      status3 = true;
-      if (track.length != 0) {
-        back.data.push({
-          index: 2,
-          track: track
-        });
-      }
-    });
-  if (status1 & status2 & status3) {
-    back.message = 'success';
-  }
+  const { id } = ctx.query;
+
+  const result = await Promise.all([
+    knex('day1')
+      .join('sensor', 'day1.sid', '=', 'sensor.sid')
+      .select('*')
+      .where('id', id)
+      .orderBy('time', 'asc'),
+    knex('day2')
+      .join('sensor', 'day2.sid', '=', 'sensor.sid')
+      .select('*')
+      .where('id', id)
+      .orderBy('time', 'asc'),
+    knex('day3')
+      .join('sensor', 'day3.sid', '=', 'sensor.sid')
+      .select('*')
+      .where('id', id)
+      .orderBy('time', 'asc'),
+  ]);
+
+  result.forEach((res, index) => {
+    if (res.length) {
+      back.data.push({
+        index,
+        track: res.map(({ time, floor, x, y }) => ({ time, floor, x, y })),
+      });
+    }
+  });
+
+  back.message = 'success';
+
   ctx.body = back;
 });
 
@@ -114,102 +70,87 @@ router.get('/graph', async (ctx, next) => {
     data: {
       node: [],
       link: [],
-    }
+    },
   };
-  var status1 = false;
-  var status2 = false;
-  await knex('sensor')
-    .select('*')
-    .then(e => {
-      const node = [];
-      for (const o of e) {
-        switch(o.function){
-          case 'poster':
-          node.push({
-            name: o.sid,
-            category: 0,
-            tooltip: {
-              formatter: '海报区:{b}'
-            }
-          });
-          break;
-          case 'road':
-          node.push({
-            name: o.sid,
-            category: 1,
-            tooltip: {
-              formatter: '道路:{b}'
-            }
-          });
-          break;
-          case 'exhibition':
-          node.push({
-            name: o.sid,
-            category: 2,
-            tooltip: {
-              formatter: '展厅:{b}'
-            }
-          });
-          break;
-          case 'mainVenue':
-          node.push({
-            name: o.sid,
-            category: 3,
-            tooltip: {
-              formatter: '主会场:{b}'
-            }
-          });
-          break;
-          case 'canteen':
-          node.push({
-            name: o.sid,
-            category: 5,
-            tooltip: {
-              formatter: '餐厅:{b}'
-            }
-          });
-          break;
-          case 'relax':
-          node.push({
-            name: o.sid,
-            category: 6,
-            tooltip: {
-              formatter: '休闲区:{b}'
-            }
-          });
-          break;
-        }
-        
-        if(o.function.match('venue')){
-          node.push({
-            name: o.sid,
-            category: 4,
-            tooltip: {
-              formatter: '分会场:{b}'
-            }
-          });
-        }
-      }
-      status1 = true;
-      back.data.node = node;
-    });
-  await knex('graph')
-    .select('*')
-    .then(e => {
-      const link = [];
-      for (const o of e) {
-        link.push({
-          source: String(o.source),
-          target: String(o.target),
-          value: o.value,
-        });
-      }
-      status2 = true;
-      back.data.link = link;
-    });
-  if(status1 & status2){
-    back.message = 'success';
-  }
+  const [area, graph] = await Promise.all([
+    knex('sensor').select('*'),
+    knex('graph').select('*'),
+  ]);
+  back.data.node = area.map(o => {
+    switch (o.function) {
+      case 'poster':
+        return {
+          name: o.sid,
+          category: 0,
+          tooltip: {
+            formatter: '海报区:{b}',
+          },
+        };
+        break;
+      case 'road':
+        return {
+          name: o.sid,
+          category: 1,
+          tooltip: {
+            formatter: '道路:{b}',
+          },
+        };
+        break;
+      case 'exhibition':
+        return {
+          name: o.sid,
+          category: 2,
+          tooltip: {
+            formatter: '展厅:{b}',
+          },
+        };
+        break;
+      case 'mainVenue':
+        return {
+          name: o.sid,
+          category: 3,
+          tooltip: {
+            formatter: '主会场:{b}',
+          },
+        };
+        break;
+      case 'canteen':
+        return {
+          name: o.sid,
+          category: 5,
+          tooltip: {
+            formatter: '餐厅:{b}',
+          },
+        };
+        break;
+      case 'relax':
+        return {
+          name: o.sid,
+          category: 6,
+          tooltip: {
+            formatter: '休闲区:{b}',
+          },
+        };
+        break;
+    }
+
+    if (o.function.match('venue')) {
+      return {
+        name: o.sid,
+        category: 4,
+        tooltip: {
+          formatter: '分会场:{b}',
+        },
+      };
+    }
+    return {};
+  });
+  back.data.link = graph.map(({ source, target, value }) => {
+    return { source, target, value };
+  });
+
+  back.message = 'success';
+
   ctx.body = back;
 });
 
@@ -244,14 +185,14 @@ router.get('/heatMap', async (ctx, next) => {
     message: 'fail',
     data: [],
   };
-  const floor = ctx.query.floor;
-  const day = ctx.query.day;
+  const { floor, day = 1 } = ctx.query;
+
   if (typeof floor === 'undefined') {
     ctx.body = back;
   }
 
-  await knex('day'+day+'_PertimeSid')
-    .join('sensor', 'day'+day+'_PertimeSid.sid', '=', 'sensor.sid')
+  await knex('day' + day + '_PertimeSid')
+    .join('sensor', 'day' + day + '_PertimeSid.sid', '=', 'sensor.sid')
     .where('floor', floor)
     .select('time', 'x', 'y', 'count')
     .then(e => {
@@ -259,12 +200,11 @@ router.get('/heatMap', async (ctx, next) => {
         return;
       }
       back.message = 'success';
-      e.forEach(item => {
-        const index = item.time;
+      e.forEach(({ time: index, x, y, count }) => {
         if (back.data[index]) {
-          back.data[index].push([item.x, item.y, item.count]);
+          back.data[index].push([x, y, count]);
         } else {
-          back.data[index] = [[item.x, item.y, item.count]];
+          back.data[index] = [[x, y, count]];
         }
       });
     });
@@ -282,45 +222,43 @@ router.post('/hm2r', async (ctx, next) => {
     ctx.body = back;
     return;
   }
-  pos[0] = Math.floor(pos[0]) + 0.5;
-  pos[1] = Math.floor(pos[1]) + 0.5;
+
   time = time.split(':').reduce((pre, cur, index) => {
     return pre + cur * Math.pow(60, 2 - index);
   }, 0);
-  await knex('sensor')
+
+  const queryList = await knex('sensor')
     .join('day1', 'sensor.sid', '=', 'day1.sid')
     .select('id')
     .where({
-      x: pos[0],
-      y: pos[1],
+      x: Math.floor(pos[0]) + 0.5,
+      y: Math.floor(pos[1]) + 0.5,
     })
     .where('time', '<=', time)
     .where('end_time', '>', time)
-    .then(async e => {
-      if (e.length === 0) {
-        back.message = 'empty';
-        return;
-      }
-      back.message = 'success';
-      const queryList = e.map(({ id }) => id);
-      console.log(queryList)
-      await knex('peopletoclass')
-        .select('class').count('*')
+    .then(e => e.map(({ id }) => id));
+  if (queryList.length) {
+    back.message = 'success';
+    const result = await Promise.all([
+      knex('peopletoclass')
+        .select('class')
+        .count('*')
         .whereIn('id', queryList)
-        .groupBy('class').then(e => {
-          e.forEach(r => {
-            back.data[r.class] = {count:r['count(*)'],ids:[]};
-          });
-        });
-      await knex('peopletoclass')
-      .select('id','class')
-      .whereIn('id', queryList).then(e=>{
-        e.forEach(r=>{
-          back.data[r.class].ids.push(r.id)
-        })
-      })
+        .groupBy('class'),
+      knex('peopletoclass')
+        .select('id', 'class')
+        .whereIn('id', queryList),
+    ]);
+    result[0].forEach(r => {
+      back.data[r.class] = { count: r['count(*)'], ids: [] };
     });
-  //console.log(back.data);
+    result[1].forEach(r => {
+      back.data[r.class].ids.push(r.id);
+    });
+  } else {
+    back.message = 'empty';
+  }
+
   ctx.body = back;
 });
 
