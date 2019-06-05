@@ -787,6 +787,7 @@ export default {
 
     myChart.on('timelinechanged', ({ currentIndex }) => {
       this.time = timeline[currentIndex];
+      this.$bus.$emit('timechange', { time: this.time, day: this.day });
     });
     myChart.on('click', ({ event: { offsetX, offsetY } }) => {
       console.log(myChart.convertFromPixel('geo', [offsetX, offsetY]));
@@ -802,6 +803,7 @@ export default {
           console.log(e);
         });
     });
+    this.$bus.$on('force', () => {});
   },
 };
 </script>
