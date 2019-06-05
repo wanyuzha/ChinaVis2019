@@ -8,6 +8,7 @@ export default {
   mounted() {
     const myChart = echarts.init(document.getElementById('force'));
     this.$axios.get('http://localhost:5270/graph').then(({ data }) => {
+      console.log(data);
       const option = {
         title: {
           text: '力导图',
