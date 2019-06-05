@@ -245,12 +245,13 @@ router.get('/heatMap', async (ctx, next) => {
     data: [],
   };
   const floor = ctx.query.floor;
+  const day = ctx.query.day;
   if (typeof floor === 'undefined') {
     ctx.body = back;
   }
 
-  await knex('day1_PertimeSid')
-    .join('sensor', 'day1_PertimeSid.sid', '=', 'sensor.sid')
+  await knex('day'+day+'_PertimeSid')
+    .join('sensor', 'day'+day+'_PertimeSid.sid', '=', 'sensor.sid')
     .where('floor', floor)
     .select('time', 'x', 'y', 'count')
     .then(e => {
