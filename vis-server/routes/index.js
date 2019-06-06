@@ -1,6 +1,36 @@
 const router = require('koa-router')();
 const knex = require('../knex');
-
+const nameMap = {
+    venueA: '分会场A',
+    venueB: '分会场B',
+    venueC: '分会场C',
+    venueD: '分会场D',
+    poster: '海报区',
+    restroom1: '厕所1',
+    restroom2: '厕所2',
+    exhibition: '展厅',
+    mainVenue: '主会场',
+    service: '服务区',
+    stair1: '楼梯',
+    stair2: '楼梯',
+    stair:'楼梯',
+    sign: '签到处',
+    entry1: '入口1',
+    entry2: '入口2',
+    entry3: '入口3',
+    entry4: '入口4',
+    exit1: '出口1',
+    exit2: '出口2',
+    exit3: '出口3',
+    exit4: '出口4',
+    road:'道路',
+    room1:'room1',
+    room2:'room2',
+    room3:'room3',
+    room4:'room4',
+    room5:'room5',
+    room:'room'
+}
 router.get('/day1', async(ctx, next) => {
     const back = {
         message: 'fail',
@@ -216,22 +246,35 @@ router.post('/stream', async(ctx, next) => {
 router.get('/worker', async(ctx, next) => {
     const back = {
         message: 'fail',
-        data: []
+        data: {
+            sec:[],
+            norm:[]
+        }
     };
-    const time = ctx.query.time;
+    let time = ctx.query.time;
     const day = ctx.query.day;
+    time = time.split(':').reduce((pre, cur, index) => {
+        return pre + cur * Math.pow(60, 2 - index);
+    }, 0);
     await knex('day'+day).join('workertofunc', 'day'+day+'.id', '=', 'workertofunc.id')
         .where('time', '<=', time)
         .where('end_time', '>', time)
         .where('day', day)
         .then(e => {
             e.forEach(r => {
-                back.data.push({
-                    id: r.id,
-                    sid: r.sid,
-                    class: r.func,
-                    function: r.function
-                })
+                if(r.func === 'security'){
+                    back.data.sec.push({
+                        id:r.id,
+                        sid:r.sid
+                    })
+                }
+                else{
+                    back.data.norm.push({
+                        id:r.id,
+                        class:nameMap[r.func],
+                        duty:r.func === r.function?'是':'否'
+                    })
+                }
             })
         })
     back.message = 'success';
