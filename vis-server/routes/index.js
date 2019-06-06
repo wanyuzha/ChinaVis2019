@@ -213,6 +213,51 @@ router.post('/stream', async(ctx, next) => {
     ctx.body = back;
 });
 
+router.get('/worker', async(ctx, next) => {
+    const back = {
+        message: 'fail',
+        data: []
+    };
+    const time = ctx.query.time;
+    const day = ctx.query.day;
+    await knex('day'+day).join('workertofunc', 'day'+day+'.id', '=', 'workertofunc.id')
+        .where('time', '<=', time)
+        .where('end_time', '>', time)
+        .where('day', day)
+        .then(e => {
+            e.forEach(r => {
+                back.data.push({
+                    id: r.id,
+                    sid: r.sid,
+                    class: r.func,
+                    function: r.function
+                })
+            })
+        })
+    back.message = 'success';
+    ctx.body = back;
+});
+
+router.get('/function', async(ctx, next) => {
+    const back = {
+        message: 'fail',
+        data: []
+    };
+    const time = ctx.query.time;
+    const day = ctx.query.day;
+    await knex('day'+day+'_PertimeSid').join('sensor', 'sensor.sid', '=', 'day'+day+'_PertimeSid.sid')
+        .select('*')
+        .sum('count')
+        .where('time', '=', time)
+        .groupBy('function')
+        .then(e => {
+            e.forEach(r => {
+                console.log(r);
+            })
+        })
+    ctx.body = back;
+});
+
 router.post('/get_func', async(ctx, next) => {
     let req = ctx.request.body
     let back = {
