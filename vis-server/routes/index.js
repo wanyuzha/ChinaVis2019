@@ -243,8 +243,10 @@ router.get('/function', async(ctx, next) => {
         message: 'fail',
         data: []
     };
-    const time = ctx.query.time;
+    const time = ctx.query.time/60 - 7*60 - 1;
     const day = ctx.query.day;
+    console.log(time);
+    console.log(day);
     await knex('day'+day+'_PertimeSid').join('sensor', 'sensor.sid', '=', 'day'+day+'_PertimeSid.sid')
         .select('*')
         .sum('count')
@@ -252,7 +254,10 @@ router.get('/function', async(ctx, next) => {
         .groupBy('function')
         .then(e => {
             e.forEach(r => {
-                console.log(r);
+                back.data.push({
+                    function: r.function,
+                    count: r['sum(`count`)']
+                });
             })
         })
     ctx.body = back;
