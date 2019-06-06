@@ -181,17 +181,18 @@ router.get('/day1func', async (ctx, next) => {
   ctx.body = back;
 });
 
-router.get('/stream', async (ctx, next) => {
+router.post('/stream', async (ctx, next) => {
   const back = {
     message: 'fail',
     data: [],
   };
-  //const sid = ctx.request.body.sid;
-  const sid = [10219, 11121, 11123, 11125];
-  const time = ctx.query.time;
-  console.log(sid);
-  console.log(time);
-  await knex('day1')
+  const sid = ctx.request.body.sid;
+  let time = ctx.request.body.time;
+  const day = ctx.request.body.day;
+  time = time.split(':').reduce((pre, cur, index) => {
+    return pre + cur * Math.pow(60, 2 - index);
+  }, 0);
+  await knex('day'+day)
     .select('*')
     .count('*')
     .whereIn('sid', sid)
@@ -203,13 +204,28 @@ router.get('/stream', async (ctx, next) => {
       e.forEach(r=>{
         back.data.push({
           sid: r.sid,
-          count: r['count(*)']
+          count: r['count(*)'],
+          func: r.function
         })
       })
       back.message = 'success';
     });
   ctx.body = back;
 });
+
+router.post('/get_func',async(ctx,next)=>{
+  let req = ctx.request.body
+  let back = {
+    message:"failed",
+    data:[]
+  }
+  await knex('sensor').select('sid','function').whereIn('sid',req.sids).then(e=>{
+    console.log(e)
+    back.data = e
+    back.message = 'success'
+  })
+  ctx.body = back
+})
 
 router.get('/heatMap', async (ctx, next) => {
   const back = {
