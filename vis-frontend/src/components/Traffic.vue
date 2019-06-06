@@ -1,62 +1,106 @@
 <template>
     <div>
         <div>
-            <div v-for="(v,k) in gates">
-                <span>入口ID：{{k}}</span>
-                <span>流量：{{v.count}}</span>
-                <span>功能区：{{v.func}}</span>
-            </div>
+            <Table :columns="columns" :data="tableData" width="392" height="400"></Table>
         </div>
-        <div>{{time}}</div>
     </div>
 </template>
 <script>
+const nameMap = {
+        venueA: '分会场A',
+        venueB: '分会场B',
+        venueC: '分会场C',
+        venueD: '分会场D',
+        poster: '海报区',
+        restroom1: '厕所1',
+        restroom2: '厕所2',
+        exhibition: '展厅',
+        mainVenue: '主会场',
+        service: '服务区',
+        stair1: '楼梯',
+        stair2: '楼梯',
+        sign: '签到处',
+        entry1: '入口1',
+        entry2: '入口2',
+        entry3: '入口3',
+        entry4: '入口4',
+        exit1: '出口1',
+        exit2: '出口2',
+        exit3: '出口3',
+        exit4: '出口4',
+        road:'道路',
+        room1:'room1',
+        room2:'room2',
+        room3:'room3',
+        room4:'room4',
+        room5:'room5'
+}
 export default {
     data () {
         return {
-            gates:{
-                11300:{count:0,func:''},
-                11502:{count:0,func:''},
-                11504:{count:0,func:''},
-                11507:{count:0,func:''},
-            },
-            time:'123'
+            columns: [
+                    {
+                        title: '入口ID',
+                        key: 'sid',
+                        width:120
+                    },
+                    {
+                        title: '地点',
+                        key: 'func',
+                        width:150
+                    },
+                    {
+                        title: '流量',
+                        key: 'count',
+                        width:120
+                    },
+            ],
+            tableData:[{
+                sid:11300,
+                count:0,
+                func:'入口1'
+            },{
+                sid:11502,
+                count:0,
+                func:'入口2',
+            },{
+                sid:11504,
+                count:0,
+                func:'入口3',
+            },{
+                sid:11507,
+                count:0,
+                func:'入口4'
+            }],
+            gates:[11300,11502,11504,11507],
         }
-    },
-    mounted () {
-        let that = this
-        this.$axios.post('http://localhost:5270/get_func',{
-            sids:Object.keys(that.gates)
-        }).then(r=>{
-            r.data.data.forEach(e=>{
-                that.gates[e.sid].func = e.function
-            })
-        })
     },
     created () {
         let that = this
         this.$bus.$on('getFromForce',name => {
-            console.log(name)
-            that.gates[name] = {count:0,func:''}
+            let toPush = {
+                sid:name,
+                count:0,
+                func:''
+            }
             this.$axios.post('http://localhost:5270/get_func', {
                 sids: [name]
             }).then(r => {
-                that.gates[name].func = r.data.data[0].function
+                toPush.func = nameMap[r.data.data[0].function]
+                that.tableData.push(toPush)
+                that.gates.push(name)
             })
         })
         this.$bus.$on('timechange',({time,day})=>{
-            that.time = time
             that.$axios.post('http://localhost:5270/stream',{
                 time:time,
                 day:day,
-                sid:Object.keys(that.gates)
+                sid:that.gates
             }).then(r=>{
-                Object.keys(that.gates).forEach(e=>{
-                    that.gates[e].count = 0
-                })
-                that.gates
+                that.tableData.forEach(e=>e.count = 0)
                 r.data.data.forEach(e => {
-                    that.gates[e.sid].count = e.count
+                    //console.log(that.tableData.findIndex(el=>{return el.sid === e.sid}))
+                    that.tableData[that.tableData.findIndex(el=>{return el.sid === e.sid})].count = e.count
                 });
             })
         })
