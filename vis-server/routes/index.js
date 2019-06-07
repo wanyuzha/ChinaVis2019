@@ -223,7 +223,6 @@ router.post('/stream', async (ctx, next) => {
         back.data.push({
           sid: r.sid,
           count: r['count(*)'],
-          func: r.function,
         });
       });
       back.message = 'success';
@@ -255,6 +254,7 @@ router.get('/worker', async (ctx, next) => {
           back.data.sec.push({
             id: r.id,
             sid: r.sid,
+            dispatch:''
           });
         } else {
           back.data.norm.push({
@@ -439,4 +439,39 @@ router.get('/parallel', async (ctx, next) => {
   ctx.body = back;
 });
 
+router.post('/dispatch',async(ctx,next)=>{
+  let back = {
+    message:'fail',
+    data:{
+      id:-1,
+    }
+  }
+  const req = ctx.request.body // sid,secs:[{id,sid}]
+  let floor,x,y = 0
+  await knex('sensor').select('floor','x','y').where('sid',req.sid).then(e=>{
+    floor = e[0].floor
+    x = e[0].x
+    y = e[0].y
+  })
+  let dist = x*x+y*y
+  let min_sid = 0;
+  await knex('sensor').whereIn('sid',req.secs.map(el=>{return el.sid})).select('sid','floor','x','y').then(e=>{
+    e.forEach(ele => {
+      if(ele.floor === floor && ele.x*ele.x + ele.y*ele.y < dist){
+        min_sid = ele.sid
+        dist = ele.x*ele.x + ele.y*ele.y
+      }
+    })
+  })
+  back.data.id = req.secs.find(r=>{return r.sid === min_sid}).id
+  ctx.body = back
+})
+
 module.exports = router;
+
+router.get('/dispatch',async(ctx,next)=>{
+  let back = {
+    message:'fail',
+    data:{}
+  }
+})
