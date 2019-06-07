@@ -1,12 +1,12 @@
 <template>
-  <div id="bar" style="width: 600px;height:400px;"></div>
+  <div id="barMap" style="width: 600px;height:400px;"></div>
 </template>
 <script>
 import echarts from 'echarts';
 export default {
-    name: 'bar',
+    name: 'barMap',
     mounted(){
-        const myChart = echarts.init(document.getElementById('bar'));
+        const myChart = echarts.init(document.getElementById('barMap'));
         this.$bus.$on('timechange', ({time, day})=>{
             time = time.split(':').reduce((pre, cur, index) => {
                 return pre + cur * Math.pow(60, 2 - index);
