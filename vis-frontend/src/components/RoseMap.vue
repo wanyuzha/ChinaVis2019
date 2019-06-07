@@ -5,15 +5,9 @@
       title="人员ID详情"
       v-model="visible"
       :mask-closable="false"
-      width="60%"
+      width="1400"
     >
-      <div style="display:flex">
-        <div class="id-list">
-          <div v-for="item in ids" :key="item">{{ item }}</div>
-        </div>
-        <div id="trails"></div>
-      </div>
-
+      <trackMap :ids="ids"></trackMap>
       <!--
       <span slot="footer" class="dialog-footer">
         <el-button @click="visible = false">取 消</el-button>
@@ -22,24 +16,8 @@
     </Modal>
   </div>
 </template>
-<style>
-.id-list {
-  text-align: left;
-  overflow: hidden;
-  overflow-y: auto;
-  height: 400px;
-  width: 200px;
-  display: flex;
-  flex-flow: row wrap;
-}
-
-.id-list > div {
-  width: 100%;
-  text-align: center;
-  cursor: pointer;
-}
-#rose,
-#trails {
+<style scoped>
+#rose {
   width: 600px;
   height: 400px;
 }
@@ -47,6 +25,7 @@
 
 <script>
 import echarts from 'echarts';
+import trackMap from './TrackMap';
 
 const option = {
   title: {
@@ -174,6 +153,9 @@ export default {
       data: [],
     };
   },
+  components: {
+    trackMap,
+  },
   created() {
     this.$bus.$on('getFromHM', ({ data, message }) => {
       if (message === 'success') {
@@ -195,9 +177,7 @@ export default {
       }
     });
   },
-  updated() {
-    console.log(12);
-  },
+
   mounted() {
     this.myChart = echarts.init(document.getElementById('rose'));
     // 使用刚指定的配置项和数据显示图表。
