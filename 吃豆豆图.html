@@ -662,7 +662,7 @@
         };
         var graphData = [
 
-        ]
+            ] //在这里填充数据即可，有两点数据就一条线，三点两条
         var id = 10001;
         $.get('http://localhost:5270/IDtrack?id=' + id, data => {
 
@@ -672,7 +672,7 @@
             data.data[0].track.forEach(item => {
                 temp = []
 
-                if (item.floor == 1 /* && count % 2 == 0*/ ) {
+                if (item.floor == 1 /*&& count % 2 == 0*/ ) {
                     temp.push(item.x)
                     temp.push(item.y)
                 }

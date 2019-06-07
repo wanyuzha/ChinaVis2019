@@ -7,11 +7,11 @@
 
     <div>
       <forceMap></forceMap>
-      <worker></worker>
-      <traffic></traffic>
+      <workerMap></workerMap>
+      <trafficMap></trafficMap>
     </div>
     <div>
-        <bar></bar>
+        <barMap></barMap>
     </div>
     
   </div>
@@ -20,17 +20,17 @@
 import heatMap from '../components/HeatMap';
 import roseMap from '../components/RoseMap';
 import forceMap from '../components/ForceMap';
-import traffic from '../components/Traffic'
-import worker from '../components/Worker'
-import bar from '../components/BarMap'
+import trafficMap from '../components/TrafficMap';
+import workerMap from '../components/WorkerMap';
+import barMap from '../components/BarMap'
 export default {
   components: {
     forceMap,
     heatMap,
     roseMap,
-    traffic,
-    worker,
-    bar
+    trafficMap,
+    workerMap,
+    barMap
   },
 };
 </script>

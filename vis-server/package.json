@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node bin/www",
-    "dev": "./node_modules/.bin/nodemon bin/www",
+    "dev": "npx nodemon bin/www -i ./node_modules",
     "prd": "pm2 start bin/www",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
