@@ -694,8 +694,8 @@ const option = {
         exit4: '出口',
       },
     },
-    animationDurationUpdate: 1000,
-    animationEasingUpdate: 'quinticInOut',
+    animationDurationUpdate: 3000,
+    animationEasingUpdate: 'linear',
   },
   options: [],
 };
