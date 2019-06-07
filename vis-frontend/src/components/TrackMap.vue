@@ -230,7 +230,7 @@ export default {
 
           const render = async () => {
             if (this.animateId > graphData.length - 1) {
-              console.log(this.animateId, graphData.length);
+              //console.log(this.animateId, graphData.length);
               return;
             }
             option.series[0].links = links.slice(0, this.animateId + 1);

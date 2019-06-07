@@ -10,9 +10,10 @@
       <workerMap></workerMap>
       <trafficMap></trafficMap>
     </div>
+    <!--
     <div>
         <barMap></barMap>
-    </div>
+    </div>!-->
     
   </div>
 </template>
