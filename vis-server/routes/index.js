@@ -60,31 +60,21 @@ router.get('/IDtrack', async(ctx, next) => {
         message: 'fail',
         data: [],
     };
-    const { id } = ctx.query;
+    const { id, day, floor} = ctx.query;
 
     const result = await Promise.all([
-        knex('day1')
-        .join('sensor', 'day1.sid', '=', 'sensor.sid')
+        knex('day'+day)
+        .join('sensor', 'day'+day+'.sid', '=', 'sensor.sid')
         .select('*')
         .where('id', id)
-        .orderBy('time', 'asc'),
-        knex('day2')
-        .join('sensor', 'day2.sid', '=', 'sensor.sid')
-        .select('*')
-        .where('id', id)
-        .orderBy('time', 'asc'),
-        knex('day3')
-        .join('sensor', 'day3.sid', '=', 'sensor.sid')
-        .select('*')
-        .where('id', id)
-        .orderBy('time', 'asc'),
+        .where('floor', floor)
+        .orderBy('time', 'asc')
     ]);
 
-    result.forEach((res, index) => {
+    result.forEach((res) => {
         if (res.length) {
             back.data.push({
-                index,
-                track: res.map(({ time, floor, x, y }) => ({ time, floor, x, y })),
+                track: res.map(({ time, x, y }) => ({ time, x, y })),
             });
         }
     });
@@ -284,6 +274,7 @@ router.get('/worker', async(ctx, next) => {
 router.get('/function', async(ctx, next) => {
     const back = {
         message: 'fail',
+        xAxis: [],
         data: []
     };
     const time = ctx.query.time/60 - 7*60 - 1;
@@ -297,10 +288,8 @@ router.get('/function', async(ctx, next) => {
         .groupBy('function')
         .then(e => {
             e.forEach(r => {
-                back.data.push({
-                    function: r.function,
-                    count: r['sum(`count`)']
-                });
+                back.xAxis.push(r.function);
+                back.data.push(r['sum(`count`)']);
             })
         })
     ctx.body = back;
