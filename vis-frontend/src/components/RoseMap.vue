@@ -30,7 +30,6 @@ import trackMap from './TrackMap';
 const option = {
   title: {
     text: '人员种类分布玫瑰图',
-    subtext: '功能区：',
     x: 'center',
   },
   tooltip: {
