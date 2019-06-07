@@ -37,13 +37,18 @@
 
 <script>
 import echarts from 'echarts';
-import { firstGeoJson, secondGeoJson } from '../config';
+import {
+  firstGeoJson,
+  secondGeoJson,
+  firstFloor,
+  secondFloor,
+} from '../config';
 
 echarts.registerMap('first-floor', firstGeoJson);
 echarts.registerMap('second-floor', secondGeoJson);
 const option = {
   title: {
-    text: 'World Flights',
+    text: '人员轨迹图',
     left: 'center',
     textStyle: {
       color: '#eee',
@@ -58,6 +63,16 @@ const option = {
     height: 520,
     width: 920,
     silent: true,
+    label: {
+      normal: {
+        show: true,
+        color: '#fff',
+      },
+      emphasis: {
+        show: true,
+        color: '#fff',
+      },
+    },
     itemStyle: {
       normal: {
         areaColor: '#323c48',
@@ -111,7 +126,7 @@ const option = {
     {
       type: 'graph',
       edgeSymbol: ['none', 'arrow'],
-      edgeSymbolSize: ['none', 4],
+      edgeSymbolSize: ['none', 5],
       coordinateSystem: 'geo',
       links: [],
       symbolSize: 5,
@@ -124,6 +139,28 @@ const option = {
       lineStyle: {
         normal: {
           color: '#D10E00',
+          width: 1,
+          opacity: 1,
+        },
+      },
+      data: [],
+    },
+    {
+      type: 'graph',
+      edgeSymbol: ['none', 'arrow'],
+      edgeSymbolSize: ['none', 15],
+      coordinateSystem: 'geo',
+      links: [],
+      symbolSize: 12,
+      calendarIndex: 0,
+      itemStyle: {
+        normal: {
+          color: 'yellow',
+        },
+      },
+      lineStyle: {
+        normal: {
+          color: '#FFFF00',
           width: 1,
           opacity: 1,
         },
@@ -146,7 +183,7 @@ export default {
         },
       ],
       tableDate: this.ids.map(id => ({ id })),
-      id: this.ids[0],
+      id: +this.ids[0],
       day: 1,
       floor: 1,
       animateId: 0,
@@ -155,6 +192,7 @@ export default {
   watch: {
     ids(val) {
       this.tableDate = val.map(id => ({ id }));
+      this.id = +val[0];
     },
   },
   methods: {
@@ -163,7 +201,7 @@ export default {
       this.renderTrackMap();
     },
     renderTrackMap() {
-      cancelAnimationFrame(this.animateId);
+      this.animateId = 9999;
       this.$Message.loading('请求中');
       this.$axios
         .get(
@@ -173,29 +211,45 @@ export default {
         )
         .then(({ data: { data } }) => {
           const graphData = data[0].track.map(({ x, y }) => [
-            x, //+ Math.random() * -1 + 0.5
-            y, // + Math.random() * -1 + 0.5,
+            x + Math.random() * -0.3 + 0.15,
+            y + Math.random() * -0.3 + 0.15,
           ]);
           const links = graphData.map((_, index) => ({
             source: index,
             target: index + 1,
           }));
-          option.title.text = this.id;
+          links.push({
+            source: links.length,
+            target: links.length,
+          });
+          option.title.text = 'id: ' + this.id;
 
           this.$Message.destroy();
           this.$Message.info('渲染完成');
-          let i = 0;
+          this.animateId = 0;
 
           const render = async () => {
-            if (i > graphData.length) return;
-            option.series[0].links = links.slice(0, i);
-            option.series[0].data = graphData.slice(0, i);
+            if (this.animateId > graphData.length - 1) {
+              console.log(this.animateId, graphData.length);
+              return;
+            }
+            option.series[0].links = links.slice(0, this.animateId + 1);
+            option.series[0].data = graphData.slice(0, this.animateId + 1);
+            option.series[1].links = links.slice(
+              this.animateId,
+              this.animateId + 1
+            );
+            option.series[1].data = graphData.slice(
+              this.animateId,
+              this.animateId + 1
+            );
+
             this.myChart.setOption(option, { notMerge: true });
-            await new Promise(r => setTimeout(r, 80));
-            i++;
-            this.animateId = requestAnimationFrame(render);
+            await new Promise(resolve => setTimeout(resolve, 80));
+            this.animateId++;
+            requestAnimationFrame(render);
           };
-          this.animateId = requestAnimationFrame(render);
+          requestAnimationFrame(render);
         });
     },
   },
@@ -212,9 +266,12 @@ export default {
     });
     this.$bus.$on('floorchange', floor => {
       this.floor = floor;
+      option.geo.map = this.floor === 1 ? 'first-floor' : 'second-floor';
+      option.geo.nameMap =
+        this.floor === 1 ? firstFloor.nameMap : secondFloor.nameMap;
+      myChart.setOption(option, true); // 使用刚指定的配置项和数据显示图表。
     });
 
-    option.geo.map = this.floor === 1 ? 'first-floor' : 'second-floor';
     myChart.setOption(option, true); // 使用刚指定的配置项和数据显示图表。
   },
 };
