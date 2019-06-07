@@ -53,8 +53,10 @@ const option = {
   tooltip: {},
   geo: {
     map: 'first-floor',
-    left: 0,
+    left: 40,
     right: 0,
+    height: 520,
+    width: 920,
     silent: true,
     itemStyle: {
       normal: {
@@ -81,6 +83,29 @@ const option = {
         },
       },
     ],
+    nameMap: {
+      venueA: '分会场A',
+      venueB: '分会场B',
+      venueC: '分会场C',
+      venueD: '分会场D',
+      poster: '海报区',
+      restroom1: '厕所1',
+      restroom2: '厕所2',
+      exhibition: '展厅',
+      mainVenue: '主会场',
+      service: '服务区',
+      stair1: '楼梯',
+      stair2: '楼梯',
+      sign: '签到处',
+      entry1: '入口',
+      entry2: '入口',
+      entry3: '入口',
+      entry4: '入口',
+      exit1: '出口',
+      exit2: '出口',
+      exit3: '出口',
+      exit4: '出口',
+    },
   },
   series: [
     {
@@ -89,7 +114,7 @@ const option = {
       edgeSymbolSize: ['none', 4],
       coordinateSystem: 'geo',
       links: [],
-      symbolSize: 0,
+      symbolSize: 5,
       calendarIndex: 0,
       itemStyle: {
         normal: {
@@ -99,7 +124,7 @@ const option = {
       lineStyle: {
         normal: {
           color: '#D10E00',
-          width: 0.5,
+          width: 1,
           opacity: 1,
         },
       },
@@ -124,6 +149,7 @@ export default {
       id: this.ids[0],
       day: 1,
       floor: 1,
+      animateId: 0,
     };
   },
   watch: {
@@ -137,6 +163,7 @@ export default {
       this.renderTrackMap();
     },
     renderTrackMap() {
+      cancelAnimationFrame(this.animateId);
       this.$Message.loading('请求中');
       this.$axios
         .get(
@@ -145,16 +172,30 @@ export default {
           }&&day=${this.day}`
         )
         .then(({ data: { data } }) => {
-          const graphData = data[0].track.map(({ x, y }) => [x, y]);
+          const graphData = data[0].track.map(({ x, y }) => [
+            x, //+ Math.random() * -1 + 0.5
+            y, // + Math.random() * -1 + 0.5,
+          ]);
           const links = graphData.map((_, index) => ({
             source: index,
             target: index + 1,
           }));
-          option.series[0].links = links;
-          option.series[0].data = graphData;
+          option.title.text = this.id;
+
           this.$Message.destroy();
           this.$Message.info('渲染完成');
-          this.myChart.setOption(option, { notMerge: true });
+          let i = 0;
+
+          const render = async () => {
+            if (i > graphData.length) return;
+            option.series[0].links = links.slice(0, i);
+            option.series[0].data = graphData.slice(0, i);
+            this.myChart.setOption(option, { notMerge: true });
+            await new Promise(r => setTimeout(r, 80));
+            i++;
+            this.animateId = requestAnimationFrame(render);
+          };
+          this.animateId = requestAnimationFrame(render);
         });
     },
   },
@@ -165,17 +206,16 @@ export default {
     const myChart = (this.myChart = echarts.init(
       document.querySelector('#track')
     ));
-    // 使用刚指定的配置项和数据显示图表。
-    myChart.setOption(option, true);
-    this.$bus.on('daychange', day => {
+
+    this.$bus.$on('daychange', day => {
       this.day = day;
     });
-    this.$bus.on('floorchange', floor => {
+    this.$bus.$on('floorchange', floor => {
       this.floor = floor;
     });
-    this.$axios.get(`http://localhost:5270/IDtrack?id=${this.id}`, data => {
-      console.log(data);
-    });
+
+    option.geo.map = this.floor === 1 ? 'first-floor' : 'second-floor';
+    myChart.setOption(option, true); // 使用刚指定的配置项和数据显示图表。
   },
 };
 </script>

@@ -102,7 +102,7 @@ router.get('/graph', async (ctx, next) => {
               formatter: '海报区:{b}',
             },
           };
-          break;
+
         case 'road':
           return {
             name: o.sid,
@@ -111,7 +111,7 @@ router.get('/graph', async (ctx, next) => {
               formatter: '道路:{b}',
             },
           };
-          break;
+
         case 'exhibition':
           return {
             name: o.sid,
@@ -120,7 +120,7 @@ router.get('/graph', async (ctx, next) => {
               formatter: '展厅:{b}',
             },
           };
-          break;
+
         case 'mainVenue':
           return {
             name: o.sid,
@@ -129,7 +129,7 @@ router.get('/graph', async (ctx, next) => {
               formatter: '主会场:{b}',
             },
           };
-          break;
+
         case 'canteen':
           return {
             name: o.sid,
@@ -138,7 +138,7 @@ router.get('/graph', async (ctx, next) => {
               formatter: '餐厅:{b}',
             },
           };
-          break;
+
         case 'relax':
           return {
             name: o.sid,
@@ -147,7 +147,6 @@ router.get('/graph', async (ctx, next) => {
               formatter: '休闲区:{b}',
             },
           };
-          break;
       }
 
       if (o.function.match('venue')) {

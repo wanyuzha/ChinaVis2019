@@ -5,7 +5,7 @@
       title="人员ID详情"
       v-model="visible"
       :mask-closable="false"
-      width="1400"
+      width="1300"
     >
       <trackMap :ids="ids"></trackMap>
       <!--
