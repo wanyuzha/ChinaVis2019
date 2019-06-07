@@ -199,6 +199,27 @@ router.get('/day1func', async (ctx, next) => {
   ctx.body = back;
 });
 
+router.get('/pca', async(ctx, next)=>{
+    const back = {
+        message: 'fail',
+        data: []
+    }
+    back.data.push(['id', 'x', 'y', 'z']);
+    const day = ctx.query.day;
+    await knex('pca')
+        .select('*')
+        .where('day', day)
+        .then(e => {
+            e.forEach(r=>{
+                back.data.push(
+                    [r.id, Number(r.x), Number(r.y), Number(r.z)]
+                )
+            })
+            back.message = 'success';
+        })
+    ctx.body = back;
+})
+
 router.post('/stream', async (ctx, next) => {
   const back = {
     message: 'fail',
