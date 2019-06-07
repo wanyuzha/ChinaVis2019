@@ -10,6 +10,10 @@
       <worker></worker>
       <traffic></traffic>
     </div>
+    <div>
+        <bar></bar>
+    </div>
+    
   </div>
 </template>
 <script>
@@ -18,13 +22,15 @@ import roseMap from '../components/RoseMap';
 import forceMap from '../components/ForceMap';
 import traffic from '../components/Traffic'
 import worker from '../components/Worker'
+import bar from '../components/BarMap'
 export default {
   components: {
     forceMap,
     heatMap,
     roseMap,
     traffic,
-    worker
+    worker,
+    bar
   },
 };
 </script>

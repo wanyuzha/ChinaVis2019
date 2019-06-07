@@ -8,6 +8,7 @@ const nameMap = {
     poster: '海报区',
     restroom1: '厕所1',
     restroom2: '厕所2',
+    restroom3: '厕所3',
     exhibition: '展厅',
     mainVenue: '主会场',
     service: '服务区',
@@ -29,7 +30,10 @@ const nameMap = {
     room3:'room3',
     room4:'room4',
     room5:'room5',
-    room:'room'
+    room6:'room6',
+    room:'room',
+    relax:'休闲区',
+    canteen:'餐厅'
 }
 router.get('/day1', async(ctx, next) => {
     const back = {
@@ -277,10 +281,8 @@ router.get('/function', async(ctx, next) => {
         xAxis: [],
         data: []
     };
-    const time = ctx.query.time/60 - 7*60 - 1;
+    const time = ctx.query.time;
     const day = ctx.query.day;
-    console.log(time);
-    console.log(day);
     await knex('day'+day+'_PertimeSid').join('sensor', 'sensor.sid', '=', 'day'+day+'_PertimeSid.sid')
         .select('*')
         .sum('count')
@@ -288,10 +290,11 @@ router.get('/function', async(ctx, next) => {
         .groupBy('function')
         .then(e => {
             e.forEach(r => {
-                back.xAxis.push(r.function);
+                back.xAxis.push(nameMap[r.function]);
                 back.data.push(r['sum(`count`)']);
             })
         })
+    back.message = 'success';
     ctx.body = back;
 });
 
