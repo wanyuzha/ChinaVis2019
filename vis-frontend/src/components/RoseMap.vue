@@ -72,7 +72,7 @@ const option = {
       },
       data: [
         {
-          value: 15,
+          value: 2794,
           name: '普通参展人员',
           labelLine: {
             show: true,
@@ -84,7 +84,7 @@ const option = {
           },
         },
         {
-          value: 15,
+          value: 107,
           name: '工作人员',
           labelLine: {
             show: true,
@@ -96,7 +96,7 @@ const option = {
           },
         },
         {
-          value: 15,
+          value: 1508,
           name: '记者',
           labelLine: {
             show: true,
@@ -108,7 +108,7 @@ const option = {
           },
         },
         {
-          value: 15,
+          value: 25,
           name: '大咖',
           labelLine: {
             show: true,
