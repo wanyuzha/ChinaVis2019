@@ -6,6 +6,7 @@ import echarts from 'echarts';
 import iView from 'iview';
 import 'echarts-gl';
 import 'iview/dist/styles/iview.css';
+import './assets/dark';
 
 Vue.config.productionTip = false;
 Vue.prototype.$axios = axios;

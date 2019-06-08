@@ -1,11 +1,11 @@
 <template>
   <div>
-    <Tabs value="norm" style="width:400px;">
+    <Tabs value="norm" style="width:600px;">
       <TabPane label="普通会务" name="norm">
         <Table
           :columns="columns2"
           :data="tableData2"
-          width="370"
+          width="600"
           height="400"
         ></Table>
       </TabPane>
@@ -13,8 +13,8 @@
         <Table
           :columns="columns1"
           :data="tableData1"
-          width="370"
-          height="300"
+          width="600"
+          height="400"
         ></Table>
       </TabPane>
     </Tabs>
@@ -59,29 +59,34 @@ export default {
         {
           title: '安保ID',
           key: 'id',
-          width: 175,
+          width: 262,
+          align: 'center',
         },
         {
           title: '所在地点',
           key: 'sid',
-          width: 195,
+          width: 335,
+          align: 'center',
         },
       ],
       columns2: [
         {
           title: '人员ID',
           key: 'id',
-          width: 120,
+          width: 185,
+          align: 'center',
         },
         {
           title: '工作地点',
           key: 'class',
-          width: 150,
+          width: 222,
+          align: 'center',
         },
         {
           title: '是否在岗',
           key: 'duty',
-          width: 100,
+          width: 190,
+          align: 'center',
         },
       ],
       tableData1: [],

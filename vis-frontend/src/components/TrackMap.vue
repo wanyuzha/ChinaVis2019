@@ -258,7 +258,8 @@ export default {
   },
   mounted() {
     const myChart = (this.myChart = echarts.init(
-      document.querySelector('#track')
+      document.querySelector('#track'),
+      'dark'
     ));
 
     this.$bus.$on('daychange', day => {

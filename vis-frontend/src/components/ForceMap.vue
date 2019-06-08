@@ -1,12 +1,19 @@
 <template>
-  <div id="force" style="width: 600px;height:600px;"></div>
+  <div id="force" style="width: 600px;height:500px;"></div>
 </template>
+<style>
+#force {
+  background: rgba(255, 255, 255, 0.3);
+}
+</style>
+
 <script>
 import echarts from 'echarts';
+
 export default {
   name: 'force',
   mounted() {
-    const myChart = echarts.init(document.getElementById('force'));
+    const myChart = echarts.init(document.getElementById('force'), 'dark');
     this.$axios.get('http://localhost:5270/graph').then(({ data }) => {
       console.log(data);
       const option = {

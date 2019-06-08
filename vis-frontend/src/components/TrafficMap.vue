@@ -4,7 +4,7 @@
       <Table
         :columns="columns"
         :data="tableData"
-        width="392"
+        width="600"
         height="400"
       ></Table>
     </div>
@@ -47,17 +47,20 @@ export default {
         {
           title: '入口ID',
           key: 'sid',
-          width: 120,
+          width: 185,
+          align: 'center',
         },
         {
           title: '地点',
           key: 'func',
-          width: 150,
+          width: 222,
+          align: 'center',
         },
         {
           title: '流量',
           key: 'count',
-          width: 120,
+          width: 190,
+          align: 'center',
         },
       ],
       tableData: [

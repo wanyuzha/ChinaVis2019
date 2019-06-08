@@ -19,7 +19,7 @@
 <style scoped>
 #rose {
   width: 600px;
-  height: 400px;
+  height: 500px;
 }
 </style>
 
@@ -178,7 +178,7 @@ export default {
   },
 
   mounted() {
-    this.myChart = echarts.init(document.getElementById('rose'));
+    this.myChart = echarts.init(document.getElementById('rose'), 'dark');
     // 使用刚指定的配置项和数据显示图表。
     this.myChart.setOption(option, true);
     this.myChart.on('click', ({ dataIndex: index }) => {
@@ -187,6 +187,12 @@ export default {
         return;
       }
       this.ids = this.data[index].ids;
+      this.visible = true;
+    });
+
+    this.$bus.$on('scatterclick', id => {
+      console.log(id);
+      this.ids = [id];
       this.visible = true;
     });
   },

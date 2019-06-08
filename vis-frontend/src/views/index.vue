@@ -1,22 +1,61 @@
 <template>
   <div class="wrap">
-    <div><forceMap></forceMap></div>
+    <div>
+      <lineMap></lineMap><scheduleMap></scheduleMap><forceMap></forceMap
+      ><scatterMap></scatterMap>
+    </div>
     <div>
       <heatMap></heatMap>
-      <div><roseMap></roseMap></div>
+      <div style="display:flex">
+        <roseMap style="disply:none"></roseMap> <parallelMap></parallelMap>
+      </div>
     </div>
 
     <div>
+      <barMap></barMap>
       <workerMap></workerMap>
       <trafficMap></trafficMap>
     </div>
 
     <!--
     <div>
-        <barMap></barMap>
+       
     </div>!-->
   </div>
 </template>
+<style>
+.wrap {
+  display: flex;
+  overflow-x: scroll;
+}
+.wrap > div {
+  margin-bottom: 50px;
+}
+
+.wrap > div > div {
+  margin: 10px;
+  /* box-shadow: 0 0 8px blue; */
+  color: aliceblue;
+  background: rgba(64, 74, 89, 1) !important;
+}
+
+.ivu-tabs,
+.ivu-table-body,
+.ivu-table-cell,
+.ivu-table-wrapper,
+.ivu-table-header,
+.ivu-table-tip,
+th,
+td {
+  color: aliceblue;
+  background: rgba(64, 74, 89, 1) !important;
+}
+
+.ivu-table-body {
+  overflow-x: hidden !important;
+}
+</style>
+
 <script>
 import heatMap from '../components/HeatMap';
 import roseMap from '../components/RoseMap';
@@ -39,16 +78,7 @@ export default {
     scatterMap,
     scheduleMap,
     parallelMap,
-    lineMap
+    lineMap,
   },
 };
 </script>
-<style>
-.wrap {
-  display: flex;
-  overflow-x: scroll;
-}
-.wrap > div {
-  margin-bottom: 50px;
-}
-</style>

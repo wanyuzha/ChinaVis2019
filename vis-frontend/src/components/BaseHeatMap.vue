@@ -15,7 +15,7 @@
 <style scoped>
 #first-heatmap {
   width: 1000px;
-  height: 600px;
+  height: 700px;
 }
 
 #container {
@@ -81,17 +81,18 @@ const timeline3 = Array.from({
 let timeline = timeline1;
 const option = {
   baseOption: {
+    width: 1100,
     timeline: {
       axisType: 'category',
       orient: 'horizontal',
       autoPlay: true,
       inverse: false,
       playInterval: 1000,
-      left: 80,
+      left: 110,
       right: 0,
       top: null,
       bottom: 20,
-      width: 800,
+      width: 890,
       height: null,
       currentIndex: 0,
       symbol: 'none',
@@ -179,6 +180,8 @@ const option = {
     },
     geo: {
       map: 'first-floor',
+      left: 145,
+      width: 850,
       label: {
         normal: {
           show: true,
@@ -333,7 +336,8 @@ export default {
   },
   mounted() {
     const myChart = (this.myChart = echarts.init(
-      document.getElementById('first-heatmap')
+      document.getElementById('first-heatmap'),
+      'dark'
     ));
 
     myChart.setOption(option, { notMerge: true });

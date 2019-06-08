@@ -7,7 +7,7 @@ import echarts from 'echarts';
 export default {
   name: 'barMap',
   mounted() {
-    const myChart = echarts.init(document.getElementById('barMap'));
+    const myChart = echarts.init(document.getElementById('barMap'), 'dark');
     this.$bus.$on('timechange', ({ time, day }) => {
       time = time.split(':').reduce((pre, cur, index) => {
         return pre + cur * Math.pow(60, 2 - index);
