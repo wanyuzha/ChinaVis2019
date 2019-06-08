@@ -35,7 +35,7 @@ const nameMap = {
     relax:'休闲区',
     canteen:'餐厅'
 }
-router.get('/day1', async(ctx, next) => {
+router.get('/day', async(ctx, next) => {
     const back = {
         message: 'fail',
         data: {
@@ -43,7 +43,8 @@ router.get('/day1', async(ctx, next) => {
             count: [],
         },
     };
-    await knex('day1_PertimeSum')
+    const day = ctx.query.day;
+    await knex('day'+day+'_PertimeSum')
         .select('*')
         .orderBy('time', 'asc')
         .then(e => {
@@ -417,8 +418,8 @@ router.get('/parallel', async (ctx, next) => {
     message: 'fail',
     data: [],
   };
-
-  await knex('day1_Parallel')
+  const day = ctx.query.day;
+  await knex('day'+day+'_Parallel')
     .select(
       'class',
       '7',

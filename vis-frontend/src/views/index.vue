@@ -15,10 +15,6 @@
     <div>
         <barMap></barMap>
     </div>!-->
-    <div>
-      <scatterMap></scatterMap>
-      <scheduleMap></scheduleMap>
-    </div>
   </div>
 </template>
 <script>
@@ -30,6 +26,8 @@ import workerMap from '../components/WorkerMap';
 import barMap from '../components/BarMap';
 import scatterMap from '../components/ScatterMap';
 import scheduleMap from '../components/ScheduleMap';
+import parallelMap from '../components/ParallelMap';
+import lineMap from '../components/LineMap';
 export default {
   components: {
     forceMap,
@@ -39,7 +37,9 @@ export default {
     workerMap,
     barMap,
     scatterMap,
-    scheduleMap
+    scheduleMap,
+    parallelMap,
+    lineMap
   },
 };
 </script>
