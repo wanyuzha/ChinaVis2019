@@ -14,7 +14,7 @@
           :columns="columns1"
           :data="tableData1"
           width="370"
-          height="400"
+          height="300"
         ></Table>
       </TabPane>
     </Tabs>
@@ -51,6 +51,7 @@ const nameMap = {
   room5: 'room5',
   room: 'room',
 };
+var last_id = 0;
 export default {
   data() {
     return {
@@ -58,12 +59,12 @@ export default {
         {
           title: '安保ID',
           key: 'id',
-          width: 170,
+          width: 175,
         },
         {
           title: '所在地点',
           key: 'sid',
-          width: 200,
+          width: 195,
         },
       ],
       columns2: [
@@ -88,11 +89,35 @@ export default {
     };
   },
   created() {
-    let that = this;
+    this.$bus.$on('dispatch', sid => {
+      this.$axios
+        .post('http://localhost:5270/dispatch', {
+          sid: sid,
+          secs: this.tableData1.map(e => {
+            return {
+              id: e.id,
+              sid: e.sid,
+            };
+          }),
+        })
+        .then(r => {
+          if (r.data.data.id != -1 && r.data.data.id != last_id) {
+            last_id = r.data.data.id;
+            this.$Notice.open({
+              title: '安保调度通知',
+              desc:
+                '请立即派遣' +
+                r.data.data.id +
+                '号安保员至' +
+                sid +
+                '处维护秩序',
+              duration: 0,
+            });
+          }
+        });
+    });
     this.$bus.$on('timechange', ({ time, day }) => {
-      that.tableData1.length = 0;
-      that.tableData2.length = 0;
-      that.$axios
+      this.$axios
         .get('http://localhost:5270/worker', {
           params: {
             time: time,
@@ -100,8 +125,8 @@ export default {
           },
         })
         .then(r => {
-          that.tableData1 = r.data.data.sec;
-          that.tableData2 = r.data.data.norm;
+          this.tableData1 = r.data.data.sec;
+          this.tableData2 = r.data.data.norm;
         });
     });
   },

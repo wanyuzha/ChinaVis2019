@@ -9,44 +9,7 @@
 
 <script>
 import baseHeatMap from './BaseHeatMap';
-const firstFloor = {
-  title: '场馆一层热力图',
-  floor: 1,
-  nameMap: {
-    venueA: '分会场A',
-    venueB: '分会场B',
-    venueC: '分会场C',
-    venueD: '分会场D',
-    poster: '海报区',
-    restroom1: '厕所1',
-    restroom2: '厕所2',
-    exhibition: '展厅',
-    mainVenue: '主会场',
-    service: '服务区',
-    stair1: '楼梯',
-    stair2: '楼梯',
-    sign: '签到处',
-    entry1: '入口',
-    entry2: '入口',
-    entry3: '入口',
-    entry4: '入口',
-    exit1: '出口',
-    exit2: '出口',
-    exit3: '出口',
-    exit4: '出口',
-  },
-};
-const secondFloor = {
-  title: '场馆二层热力图',
-  floor: 2,
-  nameMap: {
-    canteen: '餐厅',
-    relax: '休闲区',
-    stair1: '扶梯',
-    stair2: '扶梯',
-    restroom3: '厕所',
-  },
-};
+import { firstFloor, secondFloor } from '../config';
 export default {
   name: 'heatMap',
   data() {
