@@ -1,15 +1,16 @@
 <template>
   <div class="wrap">
+    <div><forceMap></forceMap></div>
     <div>
       <heatMap></heatMap>
-      <roseMap></roseMap>
+      <div><roseMap></roseMap></div>
     </div>
 
     <div>
-      <forceMap></forceMap>
       <workerMap></workerMap>
       <trafficMap></trafficMap>
     </div>
+
     <!--
     <div>
         <barMap></barMap>
@@ -43,11 +44,11 @@ export default {
 };
 </script>
 <style>
-/* .wrap {
+.wrap {
   display: flex;
-} */
+  overflow-x: scroll;
+}
 .wrap > div {
-  display: flex;
   margin-bottom: 50px;
 }
 </style>
