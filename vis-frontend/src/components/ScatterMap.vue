@@ -17,7 +17,13 @@ export default {
     const myChart = echarts.init(document.getElementById('scatterMap'), 'dark');
     this.$axios.get('http://localhost:5270/pca?day=1').then(({ data }) => {
       const option = {
-        grid3D: {},
+        grid3D: {
+          axisLine: {
+                lineStyle: {
+                  color: '#fff'
+                }
+            }
+        },
         xAxis3D: {},
         yAxis3D: {},
         zAxis3D: {},
@@ -49,7 +55,13 @@ export default {
         .then(({ data }) => {
           console.log(data);
           const option = {
-            grid3D: {},
+            grid3D: {
+              axisLine: {
+                lineStyle: {
+                  color: '#fff'
+                }
+              }
+            },
             xAxis3D: {},
             yAxis3D: {},
             zAxis3D: {},
