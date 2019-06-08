@@ -33,14 +33,14 @@
             "#91ca8c",
             "#f49f42"
         ],
-        "backgroundColor": "rgba(51,51,51,1)",
+        "backgroundColor": "rgba(64,74,89,1)",
         "textStyle": {},
         "title": {
             "textStyle": {
                 "color": "#eeeeee"
             },
             "subtextStyle": {
-                "color": "#aaa"
+                "color": "#aaaaaa"
             }
         },
         "line": {
@@ -190,7 +190,7 @@
             "lineStyle": {
                 "normal": {
                     "width": 1,
-                    "color": "#aaa"
+                    "color": "#aaaaaa"
                 }
             },
             "symbolSize": 4,
@@ -212,7 +212,7 @@
             "label": {
                 "normal": {
                     "textStyle": {
-                        "color": "#eee"
+                        "color": "#eeeeee"
                     }
                 }
             }
@@ -220,20 +220,20 @@
         "map": {
             "itemStyle": {
                 "normal": {
-                    "areaColor": "#eee",
-                    "borderColor": "#444",
+                    "areaColor": "#eeeeee",
+                    "borderColor": "#444444",
                     "borderWidth": 0.5
                 },
                 "emphasis": {
                     "areaColor": "rgba(255,215,0,0.8)",
-                    "borderColor": "#444",
+                    "borderColor": "#444444",
                     "borderWidth": 1
                 }
             },
             "label": {
                 "normal": {
                     "textStyle": {
-                        "color": "#000"
+                        "color": "#000000"
                     }
                 },
                 "emphasis": {
@@ -246,20 +246,20 @@
         "geo": {
             "itemStyle": {
                 "normal": {
-                    "areaColor": "#eee",
-                    "borderColor": "#444",
+                    "areaColor": "#eeeeee",
+                    "borderColor": "#444444",
                     "borderWidth": 0.5
                 },
                 "emphasis": {
                     "areaColor": "rgba(255,215,0,0.8)",
-                    "borderColor": "#444",
+                    "borderColor": "#444444",
                     "borderWidth": 1
                 }
             },
             "label": {
                 "normal": {
                     "textStyle": {
-                        "color": "#000"
+                        "color": "#000000"
                     }
                 },
                 "emphasis": {
@@ -416,10 +416,10 @@
         "toolbox": {
             "iconStyle": {
                 "normal": {
-                    "borderColor": "#999"
+                    "borderColor": "#999999"
                 },
                 "emphasis": {
-                    "borderColor": "#666"
+                    "borderColor": "#666666"
                 }
             }
         },
@@ -468,7 +468,7 @@
             },
             "checkpointStyle": {
                 "color": "#e43c59",
-                "borderColor": "rgba(194,53,49, 0.5)"
+                "borderColor": "rgba(194,53,49,0.5)"
             },
             "label": {
                 "normal": {
@@ -504,12 +504,12 @@
             "label": {
                 "normal": {
                     "textStyle": {
-                        "color": "#eee"
+                        "color": "#eeeeee"
                     }
                 },
                 "emphasis": {
                     "textStyle": {
-                        "color": "#eee"
+                        "color": "#eeeeee"
                     }
                 }
             }
