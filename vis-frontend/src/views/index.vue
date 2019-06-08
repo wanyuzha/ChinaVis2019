@@ -1,20 +1,20 @@
 <template>
   <div class="wrap">
+    <div><forceMap></forceMap></div>
     <div>
       <heatMap></heatMap>
-      <roseMap></roseMap>
+      <div><roseMap></roseMap></div>
     </div>
 
     <div>
-      <forceMap></forceMap>
       <workerMap></workerMap>
       <trafficMap></trafficMap>
     </div>
+
     <!--
     <div>
         <barMap></barMap>
     </div>!-->
-    
   </div>
 </template>
 <script>
@@ -23,7 +23,7 @@ import roseMap from '../components/RoseMap';
 import forceMap from '../components/ForceMap';
 import trafficMap from '../components/TrafficMap';
 import workerMap from '../components/WorkerMap';
-import barMap from '../components/BarMap'
+import barMap from '../components/BarMap';
 export default {
   components: {
     forceMap,
@@ -31,16 +31,16 @@ export default {
     roseMap,
     trafficMap,
     workerMap,
-    barMap
+    barMap,
   },
 };
 </script>
 <style>
-/* .wrap {
+.wrap {
   display: flex;
-} */
+  overflow-x: scroll;
+}
 .wrap > div {
-  display: flex;
   margin-bottom: 50px;
 }
 </style>

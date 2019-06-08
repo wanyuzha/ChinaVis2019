@@ -126,10 +126,10 @@ const option = {
     {
       type: 'graph',
       edgeSymbol: ['none', 'arrow'],
-      edgeSymbolSize: ['none', 5],
+      edgeSymbolSize: ['none', 6],
       coordinateSystem: 'geo',
       links: [],
-      symbolSize: 5,
+      symbolSize: 0,
       calendarIndex: 0,
       itemStyle: {
         normal: {
@@ -138,7 +138,7 @@ const option = {
       },
       lineStyle: {
         normal: {
-          color: '#D10E00',
+          color: 'source',
           width: 1,
           opacity: 1,
         },
@@ -151,7 +151,7 @@ const option = {
       edgeSymbolSize: ['none', 15],
       coordinateSystem: 'geo',
       links: [],
-      symbolSize: 12,
+      symbolSize: 15,
       calendarIndex: 0,
       itemStyle: {
         normal: {

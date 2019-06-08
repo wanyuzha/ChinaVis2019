@@ -89,26 +89,33 @@ export default {
     };
   },
   created() {
-    this.$bus.$on('dispatch',sid => {
-      this.$axios.post('http://localhost:5270/dispatch',{
-        sid:sid,
-        secs:this.tableData1.map(e=>{
-          return {
-            id:e.id,
-            sid:e.sid
-          }
+    this.$bus.$on('dispatch', sid => {
+      this.$axios
+        .post('http://localhost:5270/dispatch', {
+          sid: sid,
+          secs: this.tableData1.map(e => {
+            return {
+              id: e.id,
+              sid: e.sid,
+            };
+          }),
         })
-      }).then(r=>{
-        if(r.data.data.id != -1 && r.data.data.id != last_id){
-          last_id = r.data.data.id
-          this.$Notice.open({
-            title: '安保调度通知',
-            desc: '请立即派遣'+ r.data.data.id +'号安保员至'+sid+'处维护秩序',
-            duration:0
-          });
-        }
-      })
-    })
+        .then(r => {
+          if (r.data.data.id != -1 && r.data.data.id != last_id) {
+            last_id = r.data.data.id;
+            this.$Notice.open({
+              title: '安保调度通知',
+              desc:
+                '请立即派遣' +
+                r.data.data.id +
+                '号安保员至' +
+                sid +
+                '处维护秩序',
+              duration: 0,
+            });
+          }
+        });
+    });
     this.$bus.$on('timechange', ({ time, day }) => {
       this.$axios
         .get('http://localhost:5270/worker', {

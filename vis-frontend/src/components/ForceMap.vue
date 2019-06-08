@@ -49,6 +49,7 @@ export default {
             data: data.data.node,
             links: data.data.link,
             roam: true,
+            zoom: 0.1,
             draggable: true,
             categories: [
               { name: '海报区' },

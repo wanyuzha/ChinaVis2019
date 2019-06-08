@@ -116,9 +116,9 @@ export default {
             this.tableData[
               this.tableData.findIndex(el => el.sid === e.sid)
             ].count = e.count;
-            if(e.count > 20) {
-              this.$bus.$emit('dispatch',e.sid)
-              } // 流量太大
+            if (e.count > 20) {
+              this.$bus.$emit('dispatch', e.sid);
+            } // 流量太大
           });
         });
     });
