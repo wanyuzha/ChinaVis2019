@@ -97,6 +97,10 @@ const parallelAxis = [
       'restroom',
       'canteen',
       'restroom',
+      'venueA',
+      'venueB',
+      'venueC',
+      'venueD',
     ],
   },
   {
