@@ -15,7 +15,7 @@
 <style scoped>
 #first-heatmap {
   width: 1000px;
-  height: 700px;
+  height: 725px;
 }
 
 #container {
@@ -24,15 +24,17 @@
 .tab,
 .floor {
   position: absolute;
-  top: 15px;
-  left: 40px;
+  top: 18px;
+  left: 50px;
   z-index: 99;
   color: #fff;
   cursor: pointer;
+  font-size: 15px;
 }
 .floor {
   top: 10px;
-  left: 10px;
+  left: 14px;
+  font-size: 16px;
 }
 .tab > span {
   margin-left: 5px;

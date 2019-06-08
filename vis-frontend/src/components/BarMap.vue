@@ -13,7 +13,7 @@ export default {
         return pre + cur * Math.pow(60, 2 - index);
       }, 0);
       time = time / 60 - 7 * 60 - 1;
-      console.log(time);
+
       this.$axios
         .get('http://localhost:5270/function?time=' + time + '&day=' + day)
         .then(({ data }) => {

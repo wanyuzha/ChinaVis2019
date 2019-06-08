@@ -1,5 +1,8 @@
 <template>
-  <div id="parallelMap" style="width: 600px;height:500px;"></div>
+  <div
+    id="parallelMap"
+    style="width: 1400px;height:700px;margin-left:35px"
+  ></div>
 </template>
 <script>
 import echarts from 'echarts';

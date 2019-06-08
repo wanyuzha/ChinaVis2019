@@ -1,17 +1,28 @@
 <template>
-    <Card style="width:600px">
-        <div style="text-align:center">
-            <h3>A high quality UI Toolkit based on Vue.js</h3>
-        </div>
-    </Card>
+  <div class="time">
+    <h1>第{{ day }}天 {{ time }}</h1>
+  </div>
 </template>
-<script>
-
-export default {
-    mounted() {
-        this.$bus.$on('timechange', ({time,day}) => {
-
-        })
-    }
+<style scoped>
+.time {
+  text-align: center;
+  padding: 20px;
 }
+</style>
+
+<script>
+export default {
+  data() {
+    return {
+      day: 1,
+      time: '07:01:00',
+    };
+  },
+  mounted() {
+    this.$bus.$on('timechange', ({ time, day }) => {
+      this.time = time;
+      this.day = day;
+    });
+  },
+};
 </script>

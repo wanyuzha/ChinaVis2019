@@ -1,5 +1,5 @@
 <template>
-  <div id="scatterMap" style="width: 600px;height:400px;"></div>
+  <div id="scatterMap" style="width: 550px;height:500px;"></div>
 </template>
 <script>
 import echarts from 'echarts';

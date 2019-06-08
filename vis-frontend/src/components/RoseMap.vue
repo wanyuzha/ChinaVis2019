@@ -18,7 +18,7 @@
 </template>
 <style scoped>
 #rose {
-  width: 600px;
+  width: 540px;
   height: 500px;
 }
 </style>

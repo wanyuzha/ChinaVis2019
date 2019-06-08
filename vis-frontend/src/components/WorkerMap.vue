@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Tabs value="norm" style="width:600px;">
+    <Tabs value="norm" style="width:600px;" name="work">
       <TabPane label="普通会务" name="norm">
         <Table
           :columns="columns2"

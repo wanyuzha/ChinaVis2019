@@ -1,15 +1,21 @@
 <template>
   <div>
-    <div>
-      <Table
-        :columns="columns"
-        :data="tableData"
-        width="600"
-        height="400"
-      ></Table>
-    </div>
+    <h2>流量监控</h2>
+    <Table
+      :columns="columns"
+      :data="tableData"
+      width="600"
+      height="300"
+    ></Table>
   </div>
 </template>
+
+<style scoped>
+h2 {
+  padding: 15px;
+}
+</style>
+
 <script>
 const nameMap = {
   venueA: '分会场A',

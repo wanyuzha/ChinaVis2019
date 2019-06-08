@@ -1,41 +1,54 @@
 <template>
   <div class="wrap">
     <div>
-      <lineMap></lineMap><scheduleMap></scheduleMap><forceMap></forceMap
-      ><scatterMap></scatterMap>
+      <lineMap></lineMap><scheduleMap></scheduleMap><forceMap></forceMap>
     </div>
-    <div>
+    <div style="width:1120px">
+      <logo></logo>
       <heatMap></heatMap>
-      <div style="display:flex">
-        <roseMap style="disply:none"></roseMap> <parallelMap></parallelMap>
-      </div>
+      <main class="center-bottom">
+        <roseMap></roseMap><scatterMap></scatterMap>
+      </main>
     </div>
 
     <div>
+      <timeMap></timeMap>
       <barMap></barMap>
       <workerMap></workerMap>
       <trafficMap></trafficMap>
     </div>
+  </div>
 
-    <!--
+  <!--
     <div>
        
     </div>!-->
-  </div>
 </template>
 <style>
+.center-bottom {
+  display: flex;
+}
+.center-bottom > div {
+  margin-left: 10px;
+}
 .wrap {
   display: flex;
-  overflow-x: scroll;
+  overflow-x: hidden;
 }
 .wrap > div {
-  margin-bottom: 50px;
+  margin-bottom: 10px;
 }
 
 .wrap > div > div {
   margin: 10px;
   /* box-shadow: 0 0 8px blue; */
   color: aliceblue;
+  background: rgba(64, 74, 89, 1) !important;
+}
+
+.ivu-modal-content,
+.ivu-modal-header-inner {
+  color: #fff !important;
   background: rgba(64, 74, 89, 1) !important;
 }
 
@@ -67,6 +80,8 @@ import scatterMap from '../components/ScatterMap';
 import scheduleMap from '../components/ScheduleMap';
 import parallelMap from '../components/ParallelMap';
 import lineMap from '../components/LineMap';
+import logo from '../components/Logo';
+import timeMap from '../components/TimeMap';
 export default {
   components: {
     forceMap,
@@ -79,6 +94,8 @@ export default {
     scheduleMap,
     parallelMap,
     lineMap,
+    logo,
+    timeMap,
   },
 };
 </script>
