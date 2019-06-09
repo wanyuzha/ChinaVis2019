@@ -1,5 +1,8 @@
 <template>
-  <div id="barMap" style="width: 600px;height:400px;"></div>
+<div>
+<div id="barMap" style="width: 600px;height:400px;"></div>
+</div>
+  
 </template>
 <script>
 import echarts from 'echarts';

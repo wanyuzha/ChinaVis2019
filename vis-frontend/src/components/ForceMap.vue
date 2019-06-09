@@ -1,5 +1,8 @@
 <template>
-  <div id="force" style="width: 600px;height:500px;"></div>
+<div>
+<div id="force" style="width: 600px;height:500px;"></div>
+</div>
+  
 </template>
 <style>
 #force {

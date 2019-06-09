@@ -25,6 +25,7 @@
 
 #container {
   border-radius: 10px;
+  background: linear-gradient(red, blue)
 }
 
 .logo-icon {

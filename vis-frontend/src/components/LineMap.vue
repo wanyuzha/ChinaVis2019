@@ -1,6 +1,101 @@
 <template>
-  <div id="lineMap" style="width: 600px;height:400px;"></div>
+  <div>
+    <div class="dropdown">
+      <div style="font-size:15px;margin-right:7px;" @click="onFuncChange('any')"><a href="javascript:void(0)" style="color:white;">全部</a></div>
+      <div style="font-size:15px;margin-right:7px;" @click="onFuncChange('relax')"><a href="javascript:void(0)" style="color:white;">休闲区</a></div>
+      <div style="font-size:15px;margin-right:7px;" @click="onFuncChange('canteen')"><a href="javascript:void(0)" style="color:white;">餐厅</a></div>
+      <div style="font-size:15px;margin-right:7px;" @click="onFuncChange('sign')"><a href="javascript:void(0)" style="color:white;">签到处</a></div>
+      <div style="font-size:15px;margin-right:7px;" @click="onFuncChange('service')"><a href="javascript:void(0)" style="color:white;">服务区</a></div>
+      <div style="font-size:15px;margin-right:7px;" @click="onFuncChange('mainVenue')"><a href="javascript:void(0)" style="color:white;">主会场</a></div>
+      <div style="font-size:15px;margin-right:7px;" @click="onFuncChange('exhibition')"><a href="javascript:void(0)" style="color:white;">展厅</a></div>
+      <Dropdown style="font-size:15px;margin-right:7px;" @on-click="dropDownClick">
+        <a href="javascript:void(0)" style="color:white;">
+            Room
+        </a>
+        <DropdownMenu slot="list">
+              <DropdownItem name="room1">Room1</DropdownItem>
+              <DropdownItem name="room2">Room2</DropdownItem>
+              <DropdownItem name="room3">Room3</DropdownItem>
+              <DropdownItem name="room4">Room4</DropdownItem>
+              <DropdownItem name="room5">Room5</DropdownItem>
+              <DropdownItem name="room6">Room6</DropdownItem>
+        </DropdownMenu>
+      </Dropdown>
+      <Dropdown style="font-size:15px;margin-right:7px;" @on-click="dropDownClick">
+        <a href="javascript:void(0)" style="color:white;">
+            厕所
+        </a>
+        <DropdownMenu slot="list">
+              <DropdownItem name="restroom1">厕所1</DropdownItem>
+              <DropdownItem name="restroom2">厕所2</DropdownItem>
+              <DropdownItem name="restroom3">厕所3</DropdownItem>
+              <DropdownItem name="restroom4">厕所4</DropdownItem>
+        </DropdownMenu>
+      </Dropdown>
+      <Dropdown style="font-size:15px;margin-right:7px;" @on-click="dropDownClick">
+        <a href="javascript:void(0)" style="color:white;">
+            分会场
+        </a>
+        <DropdownMenu slot="list">
+              <DropdownItem name="venueA">分会场A</DropdownItem>
+              <DropdownItem name="venueB">分会场B</DropdownItem>
+              <DropdownItem name="venueC">分会场C</DropdownItem>
+              <DropdownItem name="venueD">分会场D</DropdownItem>
+        </DropdownMenu>
+      </Dropdown>
+      <Dropdown style="font-size:15px;margin-right:7px;" @on-click="dropDownClick">
+        <a href="javascript:void(0)" style="color:white;">
+            出口
+        </a>
+        <DropdownMenu slot="list">
+              <DropdownItem name="exit1">出口1</DropdownItem>
+              <DropdownItem name="exit2">出口2</DropdownItem>
+              <DropdownItem name="exit3">出口3</DropdownItem>
+              <DropdownItem name="exit4">出口4</DropdownItem>
+        </DropdownMenu>
+      </Dropdown>
+      <Dropdown style="font-size:15px;margin-right:7px;" @on-click="dropDownClick">
+        <a href="javascript:void(0)" style="color:white;">
+            入口
+        </a>
+        <DropdownMenu slot="list">
+              <DropdownItem name="entry1">入口1</DropdownItem>
+              <DropdownItem name="entry2">入口2</DropdownItem>
+              <DropdownItem name="entry3">入口3</DropdownItem>
+              <DropdownItem name="entry4">入口4</DropdownItem>
+        </DropdownMenu>
+      </Dropdown>
+      <Dropdown style="font-size:15px;margin-right:7px;" @on-click="dropDownClick">
+        <a href="javascript:void(0)" style="color:white;">
+            楼梯
+        </a>
+        <DropdownMenu slot="list">
+              <DropdownItem name="stair1">楼梯1</DropdownItem>
+              <DropdownItem name="stair2">楼梯2</DropdownItem>
+        </DropdownMenu>
+      </Dropdown>
+      
+    </div>
+    <div id="lineMap" style="width: 600px;height:400px;"></div>
+  </div>
+  
 </template>
+<style scoped>
+.dropdown{
+  position:absolute;
+  top:45px;
+  left:20px;
+  z-index: 1000;
+  display: flex;
+}
+.ivu-select-dropdown{
+  background-color: #3f4a58;
+}
+.ivu-dropdown-item{
+  color:white;
+}
+</style>
+
 <script>
 import echarts from 'echarts';
 const option = {
@@ -78,12 +173,23 @@ const option = {
     },
   ],
 };
+var myChart;
 const title = ['一', '二', '三'];
 export default {
   name: 'lineMap',
+  data () {
+    return {
+      day:1
+    }
+  },
   mounted() {
-    const myChart = echarts.init(document.getElementById('lineMap'), 'dark');
-    this.$axios.get('http://localhost:5270/day?day=1').then(({ data }) => {
+    myChart = echarts.init(document.getElementById('lineMap'), 'dark');
+    this.$axios.get('http://localhost:5270/day',{
+      params:{
+        day:1,
+        func:'any'
+      }
+    }).then(({ data }) => {
       console.log(data);
       option.series[0].data = data.data.count;
       option.xAxis.data = data.data.time;
@@ -91,8 +197,14 @@ export default {
       myChart.setOption(option, true);
     });
     this.$bus.$on('daychange', day => {
+      this.day = day
       this.$axios
-        .get('http://localhost:5270/day?day=' + day)
+        .get('http://localhost:5270/day',{
+          params:{
+            day:day,
+            func:'any'
+          }
+        })
         .then(({ data }) => {
           option.series[0].data = data.data.count;
           option.xAxis.data = data.data.time;
@@ -101,5 +213,24 @@ export default {
         });
     });
   },
+  methods: {
+    onFuncChange(func){
+      this.$axios
+        .get('http://localhost:5270/day',{
+          params:{
+            day:this.day,
+            func:func
+          }
+        })
+        .then(({ data }) => {
+          option.series[0].data = data.data.count;
+          option.xAxis.data = data.data.time;
+          myChart.setOption(option, true);
+        });
+    },
+    dropDownClick(val){
+      this.onFuncChange(val)
+    }
+  }
 };
 </script>

@@ -1,5 +1,8 @@
 <template>
+<div>
   <div id="scheduleMap" style="width: 600px;height:400px;"></div>
+</div>
+  
 </template>
 <script>
 import echarts from 'echarts';

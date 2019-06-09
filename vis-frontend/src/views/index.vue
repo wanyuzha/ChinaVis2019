@@ -1,21 +1,21 @@
 <template>
   <div class="wrap">
     <div>
-      <lineMap></lineMap><scheduleMap></scheduleMap><forceMap></forceMap>
+      <lineMap class="component"></lineMap><scheduleMap class="component"></scheduleMap><forceMap class="component"></forceMap>
     </div>
     <div style="width:1120px">
-      <logo></logo>
-      <heatMap></heatMap>
+      <logo class="logo"></logo>
+      <heatMap class="component"></heatMap>
       <main class="center-bottom">
-        <roseMap></roseMap><scatterMap></scatterMap>
+        <roseMap class="component"></roseMap><scatterMap class="component"></scatterMap>
       </main>
     </div>
 
     <div>
-      <timeMap></timeMap>
-      <barMap></barMap>
-      <workerMap></workerMap>
-      <trafficMap></trafficMap>
+      <timeMap class="component"></timeMap>
+      <barMap class="component"></barMap>
+      <workerMap class="component"></workerMap>
+      <trafficMap class="component"></trafficMap>
     </div>
   </div>
 
@@ -34,6 +34,8 @@
 .wrap {
   display: flex;
   overflow-x: hidden;
+  background-image:url(http://img.coreldraw.com.cn/data/attachment/material/2018-05-14/pre_DywLwMT26Cyp42FA.jpg);
+  background-attachment: fixed;
 }
 .wrap > div {
   margin-bottom: 10px;
@@ -44,6 +46,12 @@
   /* box-shadow: 0 0 8px blue; */
   color: aliceblue;
   background: rgba(64, 74, 89, 1) !important;
+}
+.component{
+  border: 5px solid transparent;
+	border-image: url(http://www.imaoda.com/s/img/tpl/border.png) 5%;
+  border-image-width: 2rem;
+  box-shadow:  0 0 5rem rgb(0,110,150);
 }
 
 .ivu-modal-content,

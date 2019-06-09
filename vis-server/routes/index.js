@@ -44,8 +44,11 @@ router.get('/day', async(ctx, next) => {
         },
     };
     const day = ctx.query.day;
-    await knex('day'+day+'_PertimeSum')
-        .select('*')
+    const func = ctx.query.func;
+    console.log(func)
+    if(func === 'any'){
+      await knex('day'+day+'_PertimeSum')
+        .select('time','count')
         .orderBy('time', 'asc')
         .then(e => {
             const time = [];
@@ -57,6 +60,23 @@ router.get('/day', async(ctx, next) => {
             back.data = { time, count };
             back.message = 'success';
         });
+    }
+    else{
+      await knex('day'+day+'_PertimeFunction')
+      .select('time','count')
+      .where('function',func)
+      .orderBy('time', 'asc')
+      .then(e => {
+          const time = [];
+          const count = [];
+          for (const o of e) {
+              time.push(o.time);
+              count.push(o.count);
+          }
+          back.data = { time, count };
+          back.message = 'success';
+      });
+    }
     ctx.body = back;
 });
 
