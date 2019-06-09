@@ -20,7 +20,6 @@ export default {
       this.$axios
         .get('http://localhost:5270/function?time=' + time + '&day=' + day)
         .then(({ data }) => {
-          console.log(data);
           const option = {
             color: ['#3398DB'],
             tooltip: {

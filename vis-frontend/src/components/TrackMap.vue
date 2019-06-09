@@ -210,6 +210,7 @@ export default {
           }&&day=${this.day}`
         )
         .then(({ data: { data } }) => {
+          console.log(data);
           const graphData = data[0].track.map(({ x, y }) => [
             x + Math.random() * -0.3 + 0.15,
             y + Math.random() * -0.3 + 0.15,

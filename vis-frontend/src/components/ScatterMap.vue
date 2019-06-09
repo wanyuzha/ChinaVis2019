@@ -52,11 +52,9 @@ export default {
       myChart.setOption(option, true);
     });
     this.$bus.$on('daychange', day => {
-      console.log(day);
       this.$axios
         .get('http://localhost:5270/pca?day=' + day)
         .then(({ data }) => {
-          console.log(data);
           const option = {
             grid3D: {
               axisLine: {

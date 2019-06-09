@@ -310,6 +310,12 @@ export default {
       return this.$axios
         .get(`http://localhost:5270/heatMap?floor=${this.floor}&&day=${day}`)
         .then(({ data }) => {
+          if (this.day ===2){
+            data.data.splice(0, 29)
+          }
+          else if(this.day === 3){
+            data.data.splice(0, 30)
+          }
           option.options = data.data.map((item, i) => {
             return {
               title: {

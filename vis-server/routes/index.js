@@ -344,7 +344,6 @@ router.post('/get_func', async (ctx, next) => {
     .select('sid', 'function')
     .whereIn('sid', req.sids)
     .then(e => {
-      console.log(e);
       back.data = e;
       back.message = 'success';
     });

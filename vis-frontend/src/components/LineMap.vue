@@ -190,7 +190,6 @@ export default {
         func:'any'
       }
     }).then(({ data }) => {
-      console.log(data);
       option.series[0].data = data.data.count;
       option.xAxis.data = data.data.time;
       option.title.text = '会议第一日总人数统计';

@@ -453,11 +453,9 @@ export default {
       myChart.setOption(option, true);
     });
     this.$bus.$on('daychange', day => {
-      console.log('parallel:' + day);
       this.$axios
         .get('http://localhost:5270/parallel?day=' + day)
         .then(({ data }) => {
-          console.log(data);
           var dataPTR = [];
           var dataWorker = [];
           var datajournalist = [];
