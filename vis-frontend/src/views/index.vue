@@ -34,7 +34,7 @@
 .wrap {
   display: flex;
   overflow-x: hidden;
-  background-image:url(http://img.coreldraw.com.cn/data/attachment/material/2018-05-14/pre_DywLwMT26Cyp42FA.jpg);
+  background-image:url(http://47.100.42.200:168/Resource/star.jpg);
   background-attachment: fixed;
 }
 .wrap > div {
