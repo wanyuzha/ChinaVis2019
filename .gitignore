@@ -2,3 +2,4 @@ node_modules
 npm-debug.log
 vis-server/yarn.lock
 *.lock
+.DS_Store
